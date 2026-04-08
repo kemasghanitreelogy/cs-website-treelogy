@@ -1,0 +1,107 @@
+import { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
+import { ChevronDown, Copy, Check } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+
+const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, highlight = false }, ref) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  useImperativeHandle(ref, () => ({
+    open: () => setIsOpen(true),
+  }));
+  const [copied, setCopied] = useState(false);
+  const { lang, t } = useLanguage();
+
+  const question = article.question[lang] || article.question.id;
+  const answer = article.answer[lang] || article.answer.id;
+
+  const handleCopy = useCallback(async (e) => {
+    e.stopPropagation();
+    const textToCopy = `${question}\n\n${answer}`;
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement("textarea");
+      textarea.value = textToCopy;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, [question, answer]);
+
+  if (!answer) return null;
+
+  return (
+    <div
+      id={`faq-${article.id}`}
+      className={`border rounded-xl overflow-hidden bg-card transition-all duration-300 ${
+        highlight ? "border-green/50 ring-2 ring-green/20" : "border-border"
+      }`}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left cursor-pointer hover:bg-card-hover transition-colors duration-200"
+        aria-expanded={isOpen}
+      >
+        <span className="font-medium text-sm text-text leading-snug">
+          {question}
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-muted flex-shrink-0 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+      <div
+        className={`grid transition-[grid-template-rows] duration-200 ${
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="px-5 pb-4 pt-0">
+            <div className="border-t border-border pt-3">
+              <p className="text-sm text-muted leading-relaxed whitespace-pre-line">
+                {answer}
+              </p>
+
+              {/* Copy button */}
+              <div className="flex justify-end mt-3 pt-2 border-t border-border/50">
+                <button
+                  onClick={handleCopy}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 cursor-pointer ${
+                    copied
+                      ? "bg-green-light text-green"
+                      : "text-muted hover:text-text hover:bg-card-hover border border-border/60 hover:border-border"
+                  }`}
+                  title={copied ? (lang === "id" ? "Tersalin!" : "Copied!") : (lang === "id" ? "Salin jawaban" : "Copy answer")}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>{lang === "id" ? "Tersalin!" : "Copied!"}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>{lang === "id" ? "Salin" : "Copy"}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+export default Accordion;
