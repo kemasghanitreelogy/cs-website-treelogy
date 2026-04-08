@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { HelpCircle, BookOpen, Leaf } from "lucide-react";
+import { HelpCircle, BookOpen } from "lucide-react";
+import TreelogyLogo from "./TreelogyLogo";
 import { useLanguage } from "../context/LanguageContext";
 
 /* ─── Parent Menu Definitions (scalable) ─── */
@@ -65,7 +66,7 @@ export default function AppSidebar({ isOpen, onClose }) {
         {/* Sidebar footer */}
         <div className="border-t border-border px-4 py-3">
           <div className="flex items-center gap-2 text-muted/50">
-            <Leaf className="w-3.5 h-3.5 text-green/50" />
+            <TreelogyLogo className="w-3.5 h-3.5" />
             <span className="text-[10px]">Treelogy Knowledge Base</span>
           </div>
         </div>

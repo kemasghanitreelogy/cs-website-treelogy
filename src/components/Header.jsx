@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Leaf, Globe, Menu } from "lucide-react";
+import { Globe, Menu } from "lucide-react";
+import TreelogyLogo from "./TreelogyLogo";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Header({ onToggleSidebar }) {
@@ -20,7 +21,7 @@ export default function Header({ onToggleSidebar }) {
             to="/"
             className="flex items-center gap-2 text-text font-semibold text-lg cursor-pointer hover:opacity-80 transition-opacity duration-200"
           >
-            <Leaf className="w-6 h-6 text-green" aria-hidden="true" />
+            <TreelogyLogo className="w-6 h-6" />
             <span>Treelogy</span>
           </Link>
         </div>

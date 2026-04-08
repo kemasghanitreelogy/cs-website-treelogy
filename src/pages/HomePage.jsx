@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Leaf, Search, X, ChevronRight, Sparkles } from "lucide-react";
+import { Search, X, ChevronRight, Sparkles } from "lucide-react";
+import TreelogyLogo from "../components/TreelogyLogo";
 import SearchBar from "../components/SearchBar";
 import CategoryCard from "../components/CategoryCard";
 import Accordion from "../components/Accordion";
@@ -117,8 +118,8 @@ function HeroSmartSearch() {
   const results = useMemo(() => smartSearch(index, query), [index, query]);
 
   const POPULAR_QUERIES = useMemo(() => lang === "id"
-    ? ["Moringa", "Dosis kapsul", "Cara pakai powder", "Aman untuk ibu hamil", "Perbedaan capsules powder", "Harga"]
-    : ["Moringa", "Capsule dosage", "How to use powder", "Safe for pregnant", "Capsules vs powder", "Price"], [lang]);
+    ? ["Moringa", "Dosis kapsul", "Cara pakai powder", "Ibu hamil", "Manfaat moringa", "Cara pesan", "Moringa oil"]
+    : ["Moringa", "Capsule dosage", "How to use powder", "Safe for pregnant", "Moringa benefits", "How to order", "Moringa oil"], [lang]);
 
   useEffect(() => { setSelectedIdx(-1); }, [results]);
 
@@ -261,7 +262,7 @@ function HeroSmartSearch() {
 
 /* ─── Page ─── */
 
-const POPULAR_IDS = [1, 3, 7, 8, 15, 26];
+const POPULAR_IDS = [1, 3, 9, 10, 34, 68];
 
 export default function HomePage() {
   const { t } = useLanguage();
@@ -273,7 +274,7 @@ export default function HomePage() {
       <section className="pt-10 pb-8 sm:pt-14 sm:pb-10 text-center">
         <div className="flex justify-center mb-4">
           <div className="w-14 h-14 bg-green-light rounded-2xl flex items-center justify-center">
-            <Leaf className="w-7 h-7 text-green" aria-hidden="true" />
+            <TreelogyLogo className="w-8 h-8" />
           </div>
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-text mb-3 tracking-tight">

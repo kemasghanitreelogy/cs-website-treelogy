@@ -15,6 +15,8 @@ import {
   Search,
   X,
   CornerDownRight,
+  Droplets,
+  Stethoscope,
 } from "lucide-react";
 import Accordion from "../components/Accordion";
 import ContactCTA from "../components/ContactCTA";
@@ -28,7 +30,7 @@ import {
 
 const iconMap = {
   Leaf, Pill, Clock, Heart, ShieldCheck, Package, Truck,
-  MessageCircle, Users, ShoppingBag, HelpCircle,
+  MessageCircle, Users, ShoppingBag, HelpCircle, Droplets, Stethoscope,
 };
 
 /* ── Smart Search Engine ── */
