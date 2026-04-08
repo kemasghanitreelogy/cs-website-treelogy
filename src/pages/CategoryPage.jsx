@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useCallback, createRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Leaf,
   Pill,
@@ -118,7 +118,7 @@ function HighlightText({ text, tokens }) {
 
 /* ── Inline Smart Search Component ── */
 
-function InlineSmartSearch({ currentCategoryId, onJumpToArticle }) {
+function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
   const { lang } = useLanguage();
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -158,8 +158,8 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle }) {
     if (r.categoryId === currentCategoryId) {
       onJumpToArticle(r.id);
     } else {
-      // Navigate to the other category with hash
-      window.location.href = `/category/${r.categoryId}?open=${r.id}#faq-${r.id}`;
+      // Navigate to the other category via React Router (client-side)
+      navigate(`/category/${r.categoryId}?open=${r.id}#faq-${r.id}`);
     }
   };
 
@@ -277,6 +277,7 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle }) {
 
 export default function CategoryPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { lang, t } = useLanguage();
   const category = getCategoryById(id);
   const articles = getArticlesByCategory(id);
@@ -342,6 +343,7 @@ export default function CategoryPage() {
           <InlineSmartSearch
             currentCategoryId={id}
             onJumpToArticle={jumpToArticle}
+            navigate={navigate}
           />
         </div>
       </div>

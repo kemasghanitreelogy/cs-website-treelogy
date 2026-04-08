@@ -16,7 +16,7 @@ const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, 
 
   const handleCopy = useCallback(async (e) => {
     e.stopPropagation();
-    const textToCopy = `${question}\n\n${answer}`;
+    const textToCopy = answer;
     try {
       await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
