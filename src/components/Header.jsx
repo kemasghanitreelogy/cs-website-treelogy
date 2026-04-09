@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Globe, Menu, LogIn, LogOut } from "lucide-react";
+import { Globe, Menu, LogIn, LogOut, KeyRound, AlertTriangle } from "lucide-react";
 import TreelogyLogo from "./TreelogyLogo";
 import LoginModal from "./LoginModal";
+import ChangePasswordModal from "./ChangePasswordModal";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -10,6 +11,9 @@ export default function Header({ onToggleSidebar }) {
   const { lang, toggleLang } = useLanguage();
   const { user, isAuthenticated, logout } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const logoutBackdropRef = useRef(null);
 
   return (
     <>
@@ -46,18 +50,29 @@ export default function Header({ onToggleSidebar }) {
                     <span className="text-sm font-medium text-text">{user.name}</span>
                     <span
                       className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-                        user.role === "admin"
+                        user.role === "Owner"
                           ? "bg-purple-100 text-purple-700"
-                          : "bg-blue-100 text-blue-700"
+                          : user.role === "Developer"
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-blue-100 text-blue-700"
                       }`}
                     >
                       {user.role}
                     </span>
                   </div>
                 </div>
+                {/* Change Password */}
+                <button
+                  onClick={() => setShowChangePassword(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-sm font-medium text-muted hover:text-green hover:border-green/30 transition-colors duration-200 cursor-pointer"
+                  aria-label={lang === "id" ? "Ganti Password" : "Change Password"}
+                >
+                  <KeyRound className="w-4 h-4" />
+                  <span className="hidden sm:inline">{lang === "id" ? "Ganti Password" : "Change Password"}</span>
+                </button>
                 {/* Logout */}
                 <button
-                  onClick={logout}
+                  onClick={() => setShowLogoutConfirm(true)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-sm font-medium text-muted hover:text-red-500 hover:border-red-200 transition-colors duration-200 cursor-pointer"
                   aria-label="Logout"
                 >
@@ -69,9 +84,10 @@ export default function Header({ onToggleSidebar }) {
               <button
                 onClick={() => setShowLogin(true)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-green/30 bg-green-light/30 text-sm font-medium text-green hover:bg-green-light hover:border-green/50 transition-colors duration-200 cursor-pointer"
+                title={lang === "id" ? "Login untuk tambah, edit, atau hapus FAQ" : "Login to add, edit, or delete FAQ"}
               >
                 <LogIn className="w-4 h-4" />
-                <span>{lang === "id" ? "Masuk" : "Login"}</span>
+                <span>{lang === "id" ? "Masuk untuk Kelola FAQ" : "Login to Manage FAQ"}</span>
               </button>
             )}
 
@@ -92,6 +108,49 @@ export default function Header({ onToggleSidebar }) {
           onClose={() => setShowLogin(false)}
           onSuccess={() => setShowLogin(false)}
         />
+      )}
+
+      {showChangePassword && (
+        <ChangePasswordModal onClose={() => setShowChangePassword(false)} />
+      )}
+
+      {showLogoutConfirm && (
+        <div
+          ref={logoutBackdropRef}
+          onClick={(e) => { if (e.target === logoutBackdropRef.current) setShowLogoutConfirm(false); }}
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+        >
+          <div className="bg-card w-full max-w-xs rounded-2xl shadow-2xl border border-border animate-in fade-in slide-in-from-bottom-4 duration-200">
+            <div className="px-6 py-6 text-center">
+              <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+                <AlertTriangle className="w-6 h-6 text-red-500" />
+              </div>
+              <h3 className="text-base font-semibold text-text mb-1">
+                {lang === "id" ? "Konfirmasi Logout" : "Confirm Logout"}
+              </h3>
+              <p className="text-xs text-muted leading-relaxed">
+                {lang === "id"
+                  ? "Apakah Anda yakin ingin keluar dari akun ini?"
+                  : "Are you sure you want to log out of this account?"}
+              </p>
+            </div>
+            <div className="flex border-t border-border">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 py-3 text-sm font-medium text-muted hover:text-text hover:bg-card-hover transition-colors cursor-pointer rounded-bl-2xl"
+              >
+                {lang === "id" ? "Batal" : "Cancel"}
+              </button>
+              <div className="w-px bg-border" />
+              <button
+                onClick={() => { setShowLogoutConfirm(false); logout(); }}
+                className="flex-1 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors cursor-pointer rounded-br-2xl"
+              >
+                {lang === "id" ? "Ya, Keluar" : "Yes, Logout"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

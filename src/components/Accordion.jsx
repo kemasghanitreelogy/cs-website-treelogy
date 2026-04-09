@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
-import { ChevronDown, Copy, Check } from "lucide-react";
+import { ChevronDown, Copy, Check, Pencil, Trash2 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
-const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, highlight = false }, ref) {
+const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, highlight = false, onEdit, onDelete }, ref) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   useImperativeHandle(ref, () => ({
@@ -72,8 +72,30 @@ const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, 
                 {answer}
               </p>
 
-              {/* Copy button */}
-              <div className="flex justify-end mt-3 pt-2 border-t border-border/50">
+              {/* Action buttons */}
+              <div className="flex items-center justify-between mt-3 pt-2 border-t border-border/50">
+                <div className="flex items-center gap-1.5">
+                  {onEdit && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onEdit(article); }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted/60 hover:text-blue-600 rounded-lg hover:bg-blue-50 border border-border/60 hover:border-blue-200 transition-all duration-200 cursor-pointer"
+                      title={lang === "id" ? "Edit FAQ" : "Edit FAQ"}
+                    >
+                      <Pencil className="w-3 h-3" />
+                      <span>Edit</span>
+                    </button>
+                  )}
+                  {onDelete && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onDelete(article); }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted/60 hover:text-red-500 rounded-lg hover:bg-red-50 border border-border/60 hover:border-red-200 transition-all duration-200 cursor-pointer"
+                      title={lang === "id" ? "Hapus FAQ" : "Delete FAQ"}
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      <span>{lang === "id" ? "Hapus" : "Delete"}</span>
+                    </button>
+                  )}
+                </div>
                 <button
                   onClick={handleCopy}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 cursor-pointer ${

@@ -17,10 +17,12 @@ import {
   History,
   Clock,
   User,
+  Plus,
 } from "lucide-react";
 import TreelogyLogo from "../components/TreelogyLogo";
 import CategoryCard from "../components/CategoryCard";
 import FAQEditModal from "../components/FAQEditModal";
+import FAQAddModal from "../components/FAQAddModal";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
 import HistoryDrawer from "../components/HistoryDrawer";
 import LoginModal from "../components/LoginModal";
@@ -142,7 +144,7 @@ function HeroSmartSearch() {
           onChange={(e) => { setQuery(e.target.value); setIsOpen(true); }}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          placeholder={lang === "id" ? "Ketik pertanyaan Anda... cth: dosis, manfaat, harga" : "Type your question... e.g.: dosage, benefits, price"}
+          placeholder={lang === "id" ? "Ketik pertanyaan Anda (typo juga bisa)... cth: dosis, manfaat" : "Type your question (typos OK)... e.g.: dosage, benefits"}
           className="w-full pl-12 pr-10 py-3.5 text-sm rounded-xl border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green shadow-sm transition-all duration-200"
           autoComplete="off"
           aria-label="Search FAQ"
@@ -297,19 +299,19 @@ function FAQTableRow({ entry, index, lang, navigate, onEdit, onDelete }) {
             )}
           </div>
         </div>
-        {/* Action buttons */}
-        <div className="hidden sm:flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Action buttons - always visible */}
+        <div className="hidden sm:flex items-center gap-1">
           <button
             onClick={(e) => { e.stopPropagation(); onEdit(entry.article); }}
-            className="p-1.5 rounded-md text-muted/50 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
-            title={lang === "id" ? "Edit" : "Edit"}
+            className="p-1.5 rounded-md text-muted/40 hover:text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
+            title={lang === "id" ? "Edit FAQ" : "Edit FAQ"}
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete(entry.article); }}
-            className="p-1.5 rounded-md text-muted/50 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-            title={lang === "id" ? "Hapus" : "Delete"}
+            className="p-1.5 rounded-md text-muted/40 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+            title={lang === "id" ? "Hapus FAQ" : "Delete FAQ"}
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -385,14 +387,16 @@ function FAQDataTable() {
   // Modal states
   const [editArticle, setEditArticle] = useState(null);
   const [deleteArticle, setDeleteArticle] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [pendingAction, setPendingAction] = useState(null); // { type: 'edit'|'delete', article }
+  const [pendingAction, setPendingAction] = useState(null); // { type: 'edit'|'delete'|'add', article? }
 
   const handleAuthAction = useCallback((type, article) => {
     if (isAuthenticated) {
       if (type === "edit") setEditArticle(article);
-      else setDeleteArticle(article);
+      else if (type === "delete") setDeleteArticle(article);
+      else if (type === "add") setShowAddModal(true);
     } else {
       setPendingAction({ type, article });
       setShowLoginModal(true);
@@ -403,7 +407,8 @@ function FAQDataTable() {
     setShowLoginModal(false);
     if (pendingAction) {
       if (pendingAction.type === "edit") setEditArticle(pendingAction.article);
-      else setDeleteArticle(pendingAction.article);
+      else if (pendingAction.type === "delete") setDeleteArticle(pendingAction.article);
+      else if (pendingAction.type === "add") setShowAddModal(true);
       setPendingAction(null);
     }
   }, [pendingAction]);
@@ -499,6 +504,15 @@ function FAQDataTable() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Add FAQ button */}
+          <button
+            onClick={() => handleAuthAction("add")}
+            className="flex items-center gap-1.5 px-2.5 py-2 text-xs rounded-lg bg-green text-white hover:bg-green/90 transition-colors cursor-pointer shadow-sm"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>{lang === "id" ? "Tambah" : "Add"}</span>
+          </button>
+
           {/* History button */}
           <button
             onClick={() => setShowHistory(true)}
@@ -612,6 +626,12 @@ function FAQDataTable() {
       </div>
 
       {/* Modals */}
+      {showAddModal && (
+        <FAQAddModal
+          onClose={() => setShowAddModal(false)}
+          onSaved={() => setShowAddModal(false)}
+        />
+      )}
       {editArticle && (
         <FAQEditModal
           article={editArticle}

@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Save, Loader2, Tag, User } from "lucide-react";
+import { X, Save, Loader2, Tag, User, Plus } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
 import { useAuth } from "../context/AuthContext";
 
-export default function FAQEditModal({ article, onClose, onSaved }) {
+export default function FAQAddModal({ onClose, onSaved }) {
   const { lang } = useLanguage();
-  const { categories, updateArticle } = useData();
+  const { categories, createArticle } = useData();
   const { user: authUser } = useAuth();
   const [form, setForm] = useState({
-    category_id: "",
+    category_id: categories[0]?.id || "",
     question_id: "",
     question_en: "",
     answer_id: "",
@@ -18,18 +18,6 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const backdropRef = useRef(null);
-
-  useEffect(() => {
-    if (article) {
-      setForm({
-        category_id: article.categoryId,
-        question_id: article.question.id,
-        question_en: article.question.en,
-        answer_id: article.answer.id,
-        answer_en: article.answer.en,
-      });
-    }
-  }, [article]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -46,10 +34,19 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
       return;
     }
 
+    if (!form.question_id.trim() && !form.question_en.trim()) {
+      setError(lang === "id" ? "Pertanyaan tidak boleh kosong" : "Question cannot be empty");
+      return;
+    }
+    if (!form.answer_id.trim() && !form.answer_en.trim()) {
+      setError(lang === "id" ? "Jawaban tidak boleh kosong" : "Answer cannot be empty");
+      return;
+    }
+
     setSaving(true);
     setError(null);
     try {
-      await updateArticle(article.id, form, authUser.id, authUser.name);
+      await createArticle(form, authUser.id, authUser.name);
       onSaved?.();
       onClose();
     } catch (err) {
@@ -72,11 +69,18 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
       <div className="bg-card w-full max-w-2xl rounded-2xl shadow-2xl border border-border animate-in fade-in slide-in-from-bottom-4 duration-200 mb-8">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <div>
-            <h2 className="text-base font-semibold text-text">
-              {lang === "id" ? "Edit FAQ" : "Edit FAQ"}
-            </h2>
-            <p className="text-xs text-muted mt-0.5">ID: #{article?.id}</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-green-light flex items-center justify-center">
+              <Plus className="w-5 h-5 text-green" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold text-text">
+                {lang === "id" ? "Tambah FAQ" : "Add FAQ"}
+              </h2>
+              <p className="text-[11px] text-muted">
+                {lang === "id" ? "Buat pertanyaan & jawaban baru" : "Create new question & answer"}
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -88,13 +92,13 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
 
         {/* Body */}
         <div className="px-6 py-5 space-y-5 max-h-[65vh] overflow-y-auto faq-scroll">
-          {/* Logged-in user + Category */}
+          {/* User + Category */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Editing as */}
+            {/* Created by */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted mb-1.5">
                 <User className="w-3.5 h-3.5" />
-                {lang === "id" ? "Editor" : "Editor"}
+                {lang === "id" ? "Dibuat oleh" : "Created by"}
               </label>
               <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border bg-card-hover/50">
                 <div className="w-6 h-6 rounded-full bg-green-light flex items-center justify-center">
@@ -148,7 +152,9 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
               type="text"
               value={form.question_id}
               onChange={(e) => handleChange("question_id", e.target.value)}
-              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
+              placeholder={lang === "id" ? "Tulis pertanyaan dalam Bahasa Indonesia..." : "Write question in Indonesian..."}
+              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
+              autoFocus
             />
           </div>
 
@@ -161,7 +167,8 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
               type="text"
               value={form.question_en}
               onChange={(e) => handleChange("question_en", e.target.value)}
-              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
+              placeholder={lang === "id" ? "Tulis pertanyaan dalam Bahasa Inggris..." : "Write question in English..."}
+              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
             />
           </div>
 
@@ -173,8 +180,9 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
             <textarea
               value={form.answer_id}
               onChange={(e) => handleChange("answer_id", e.target.value)}
+              placeholder={lang === "id" ? "Tulis jawaban dalam Bahasa Indonesia..." : "Write answer in Indonesian..."}
               rows={5}
-              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green resize-y leading-relaxed"
+              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green resize-y leading-relaxed"
             />
           </div>
 
@@ -186,25 +194,11 @@ export default function FAQEditModal({ article, onClose, onSaved }) {
             <textarea
               value={form.answer_en}
               onChange={(e) => handleChange("answer_en", e.target.value)}
+              placeholder={lang === "id" ? "Tulis jawaban dalam Bahasa Inggris..." : "Write answer in English..."}
               rows={5}
-              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green resize-y leading-relaxed"
+              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green resize-y leading-relaxed"
             />
           </div>
-
-          {/* Last updated info */}
-          {article?.updater_name && (
-            <div className="bg-card-hover/60 rounded-lg px-4 py-3 text-xs text-muted">
-              <span className="font-medium text-text">{lang === "id" ? "Terakhir diubah:" : "Last edited:"}</span>{" "}
-              {article.updater_name}
-              <span className="mx-1.5 text-muted/30">|</span>
-              {article.updated_at
-                ? new Date(article.updated_at).toLocaleString(lang === "id" ? "id-ID" : "en-US", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })
-                : "-"}
-            </div>
-          )}
         </div>
 
         {/* Footer */}

@@ -18,11 +18,17 @@ import {
   Droplets,
   Stethoscope,
   Loader2,
+  Plus,
 } from "lucide-react";
 import Accordion from "../components/Accordion";
 import ContactCTA from "../components/ContactCTA";
+import FAQEditModal from "../components/FAQEditModal";
+import FAQAddModal from "../components/FAQAddModal";
+import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import LoginModal from "../components/LoginModal";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
+import { useAuth } from "../context/AuthContext";
 import { buildIndex, smartSearch } from "../lib/search";
 
 const iconMap = {
@@ -122,7 +128,7 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
           onChange={(e) => { setQuery(e.target.value); setIsOpen(true); }}
           onFocus={() => query.length >= 2 && setIsOpen(true)}
           onKeyDown={handleKeyDown}
-          placeholder={lang === "id" ? "Cari pertanyaan atau topik..." : "Search questions or topics..."}
+          placeholder={lang === "id" ? "Cari pertanyaan (typo juga bisa)..." : "Search questions (typos OK)..."}
           className="w-full bg-transparent outline-none text-text placeholder:text-muted/60 pl-10 pr-10 text-sm"
           autoComplete="off"
         />
@@ -200,12 +206,41 @@ export default function CategoryPage() {
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
   const { getCategoryById, getArticlesByCategory, loading } = useData();
+  const { isAuthenticated } = useAuth();
   const category = getCategoryById(id);
   const articles = getArticlesByCategory(id);
 
   const [openArticleId, setOpenArticleId] = useState(null);
   const [highlightId, setHighlightId] = useState(null);
   const accordionRefs = useRef({});
+
+  // Modal states
+  const [editArticle, setEditArticle] = useState(null);
+  const [deleteArticle, setDeleteArticle] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
+
+  const handleAuthAction = useCallback((type, article) => {
+    if (isAuthenticated) {
+      if (type === "edit") setEditArticle(article);
+      else if (type === "delete") setDeleteArticle(article);
+      else if (type === "add") setShowAddModal(true);
+    } else {
+      setPendingAction({ type, article });
+      setShowLoginModal(true);
+    }
+  }, [isAuthenticated]);
+
+  const handleLoginSuccess = useCallback(() => {
+    setShowLoginModal(false);
+    if (pendingAction) {
+      if (pendingAction.type === "edit") setEditArticle(pendingAction.article);
+      else if (pendingAction.type === "delete") setDeleteArticle(pendingAction.article);
+      else if (pendingAction.type === "add") setShowAddModal(true);
+      setPendingAction(null);
+    }
+  }, [pendingAction]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -253,14 +288,23 @@ export default function CategoryPage() {
       </div>
 
       <section className="pb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 bg-green-light rounded-lg flex items-center justify-center">
-            <Icon className="w-5 h-5 text-green" aria-hidden="true" />
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-light rounded-lg flex items-center justify-center">
+              <Icon className="w-5 h-5 text-green" aria-hidden="true" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-text">{category.name[lang]}</h1>
+              <p className="text-sm text-muted">{category.description[lang]}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-text">{category.name[lang]}</h1>
-            <p className="text-sm text-muted">{category.description[lang]}</p>
-          </div>
+          <button
+            onClick={() => handleAuthAction("add")}
+            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg bg-green text-white hover:bg-green/90 transition-colors cursor-pointer shadow-sm"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>{lang === "id" ? "Tambah FAQ" : "Add FAQ"}</span>
+          </button>
         </div>
       </section>
 
@@ -274,6 +318,8 @@ export default function CategoryPage() {
                 article={article}
                 defaultOpen={openArticleId === article.id}
                 highlight={highlightId === article.id}
+                onEdit={(a) => handleAuthAction("edit", a)}
+                onDelete={(a) => handleAuthAction("delete", a)}
               />
             ))}
           </div>
@@ -285,6 +331,34 @@ export default function CategoryPage() {
       </section>
 
       <ContactCTA />
+
+      {/* Modals */}
+      {showAddModal && (
+        <FAQAddModal
+          onClose={() => setShowAddModal(false)}
+          onSaved={() => setShowAddModal(false)}
+        />
+      )}
+      {editArticle && (
+        <FAQEditModal
+          article={editArticle}
+          onClose={() => setEditArticle(null)}
+          onSaved={() => setEditArticle(null)}
+        />
+      )}
+      {deleteArticle && (
+        <DeleteConfirmModal
+          article={deleteArticle}
+          onClose={() => setDeleteArticle(null)}
+          onDeleted={() => setDeleteArticle(null)}
+        />
+      )}
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => { setShowLoginModal(false); setPendingAction(null); }}
+          onSuccess={handleLoginSuccess}
+        />
+      )}
     </main>
   );
 }
