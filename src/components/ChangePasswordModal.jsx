@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Mail, KeyRound, ShieldCheck, Loader2, ArrowLeft, Check, AlertCircle } from "lucide-react";
+import { X, Mail, KeyRound, ShieldCheck, Loader2, ArrowLeft, Check, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../lib/supabase";
@@ -16,6 +16,8 @@ export default function ChangePasswordModal({ onClose }) {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   const otpRefs = useRef([]);
   const backdropRef = useRef(null);
 
@@ -108,15 +110,31 @@ export default function ChangePasswordModal({ onClose }) {
     }
   };
 
-  // Step 2: Verify OTP
+  // Step 2: Verify OTP (server-side validation)
   const handleVerifyOtp = async () => {
     const code = otp.join("");
     if (code.length !== 6) {
       setError(lang === "id" ? "Masukkan 6 digit kode OTP" : "Enter 6-digit OTP code");
       return;
     }
-    setStep(STEPS.NEWPASS);
+    setLoading(true);
     setError(null);
+    try {
+      const { data, error: rpcErr } = await supabase.rpc("verify_otp_only", {
+        p_user_id: user.id,
+        p_code: code,
+      });
+      if (rpcErr) throw rpcErr;
+      if (data?.error === "INVALID_OTP") {
+        setError(lang === "id" ? "Kode OTP salah atau sudah kadaluarsa" : "Invalid or expired OTP code");
+        return;
+      }
+      setStep(STEPS.NEWPASS);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Step 3: Change password
@@ -267,9 +285,13 @@ export default function ChangePasswordModal({ onClose }) {
                 </button>
                 <button
                   onClick={handleVerifyOtp}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-green hover:bg-green/90 rounded-lg transition-colors cursor-pointer shadow-sm"
+                  disabled={loading}
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-green hover:bg-green/90 rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                 >
-                  {lang === "id" ? "Verifikasi" : "Verify"}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
+                  {loading
+                    ? lang === "id" ? "Memverifikasi..." : "Verifying..."
+                    : lang === "id" ? "Verifikasi" : "Verify"}
                 </button>
               </div>
             </div>
@@ -282,26 +304,44 @@ export default function ChangePasswordModal({ onClose }) {
                 <label className="text-xs font-medium text-muted mb-1.5 block">
                   {lang === "id" ? "Password Baru" : "New Password"}
                 </label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => { setNewPassword(e.target.value); setError(null); }}
-                  placeholder={lang === "id" ? "Masukkan password baru..." : "Enter new password..."}
-                  className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
-                  autoFocus
-                />
+                <div className="relative">
+                  <input
+                    type={showNewPass ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => { setNewPassword(e.target.value); setError(null); }}
+                    placeholder={lang === "id" ? "Masukkan password baru..." : "Enter new password..."}
+                    className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPass(!showNewPass)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/40 hover:text-muted cursor-pointer transition-colors"
+                  >
+                    {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
               <div>
                 <label className="text-xs font-medium text-muted mb-1.5 block">
                   {lang === "id" ? "Konfirmasi Password" : "Confirm Password"}
                 </label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => { setConfirmPassword(e.target.value); setError(null); }}
-                  placeholder={lang === "id" ? "Ulangi password baru..." : "Repeat new password..."}
-                  className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirmPass ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => { setConfirmPassword(e.target.value); setError(null); }}
+                    placeholder={lang === "id" ? "Ulangi password baru..." : "Repeat new password..."}
+                    className="w-full px-3 py-2.5 pr-10 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPass(!showConfirmPass)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/40 hover:text-muted cursor-pointer transition-colors"
+                  >
+                    {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
               <button
                 onClick={handleChangePassword}
