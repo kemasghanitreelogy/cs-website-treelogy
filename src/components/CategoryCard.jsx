@@ -12,14 +12,17 @@ import {
   Users,
   ShoppingBag,
   HelpCircle,
+  Droplets,
+  Stethoscope,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
-import { getArticlesByCategory } from "../data/knowledgeBase";
+import { useData } from "../context/DataContext";
 
-const iconMap = { Leaf, Pill, Clock, Heart, ShieldCheck, Package, Truck, MessageCircle, Users, ShoppingBag, HelpCircle };
+const iconMap = { Leaf, Pill, Clock, Heart, ShieldCheck, Package, Truck, MessageCircle, Users, ShoppingBag, HelpCircle, Droplets, Stethoscope };
 
 export default function CategoryCard({ category }) {
   const { lang, t } = useLanguage();
+  const { getArticlesByCategory } = useData();
   const Icon = iconMap[category.icon] || HelpCircle;
   const articleCount = getArticlesByCategory(category.id).length;
 

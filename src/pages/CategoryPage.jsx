@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback, createRef } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Leaf,
@@ -17,16 +17,12 @@ import {
   CornerDownRight,
   Droplets,
   Stethoscope,
+  Loader2,
 } from "lucide-react";
 import Accordion from "../components/Accordion";
 import ContactCTA from "../components/ContactCTA";
 import { useLanguage } from "../context/LanguageContext";
-import {
-  getCategoryById,
-  getArticlesByCategory,
-  categories,
-  articles as allArticles,
-} from "../data/knowledgeBase";
+import { useData } from "../context/DataContext";
 
 const iconMap = {
   Leaf, Pill, Clock, Heart, ShieldCheck, Package, Truck,
@@ -35,8 +31,8 @@ const iconMap = {
 
 /* ── Smart Search Engine ── */
 
-function buildIndex(lang) {
-  return allArticles.map((a) => {
+function buildIndex(articles, categories, lang) {
+  return articles.map((a) => {
     const q = (a.question[lang] || a.question.id).toLowerCase();
     const ans = (a.answer[lang] || a.answer.id).toLowerCase();
     const cat = categories.find((c) => c.id === a.categoryId);
@@ -62,17 +58,12 @@ function smartSearch(index, query) {
   for (const entry of index) {
     let score = 0;
     for (const tok of tokens) {
-      // Word-boundary match in question
       const wbQ = new RegExp(`\\b${tok.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
       if (wbQ.test(entry.qLower)) score += 12;
       else if (entry.qLower.includes(tok)) score += 8;
-
-      // Answer match
       if (entry.ansLower.includes(tok)) score += 3;
     }
-    // Phrase bonus
     if (tokens.length > 1 && entry.qLower.includes(phrase)) score += 15;
-
     if (score > 0) scored.push({ ...entry, score });
   }
 
@@ -120,13 +111,14 @@ function HighlightText({ text, tokens }) {
 
 function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
   const { lang } = useLanguage();
+  const { articles, categories } = useData();
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(-1);
   const inputRef = useRef(null);
   const dropRef = useRef(null);
 
-  const index = useMemo(() => buildIndex(lang), [lang]);
+  const index = useMemo(() => buildIndex(articles, categories, lang), [articles, categories, lang]);
   const tokens = useMemo(
     () => query.toLowerCase().split(/\s+/).filter((t) => t.length > 1),
     [query]
@@ -140,12 +132,7 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
 
   useEffect(() => {
     const handler = (e) => {
-      if (
-        dropRef.current && !dropRef.current.contains(e.target) &&
-        !inputRef.current?.contains(e.target)
-      ) {
-        setIsOpen(false);
-      }
+      if (dropRef.current && !dropRef.current.contains(e.target) && !inputRef.current?.contains(e.target)) setIsOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -154,29 +141,15 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
   const handleSelect = (r) => {
     setIsOpen(false);
     setQuery("");
-    // If same category, scroll to and open the accordion directly
-    if (r.categoryId === currentCategoryId) {
-      onJumpToArticle(r.id);
-    } else {
-      // Navigate to the other category via React Router (client-side)
-      navigate(`/category/${r.categoryId}?open=${r.id}#faq-${r.id}`);
-    }
+    if (r.categoryId === currentCategoryId) onJumpToArticle(r.id);
+    else navigate(`/category/${r.categoryId}?open=${r.id}#faq-${r.id}`);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setSelectedIdx((p) => Math.min(p + 1, results.length - 1));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setSelectedIdx((p) => Math.max(p - 1, -1));
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      if (selectedIdx >= 0 && results[selectedIdx]) handleSelect(results[selectedIdx]);
-    } else if (e.key === "Escape") {
-      setIsOpen(false);
-      inputRef.current?.blur();
-    }
+    if (e.key === "ArrowDown") { e.preventDefault(); setSelectedIdx((p) => Math.min(p + 1, results.length - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setSelectedIdx((p) => Math.max(p - 1, -1)); }
+    else if (e.key === "Enter") { e.preventDefault(); if (selectedIdx >= 0 && results[selectedIdx]) handleSelect(results[selectedIdx]); }
+    else if (e.key === "Escape") { setIsOpen(false); inputRef.current?.blur(); }
   };
 
   return (
@@ -206,12 +179,8 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
         )}
       </div>
 
-      {/* Results dropdown */}
       {isOpen && query.length >= 2 && (
-        <div
-          ref={dropRef}
-          className="absolute z-50 top-full mt-2 left-0 right-0 bg-white rounded-xl border border-border shadow-xl overflow-hidden"
-        >
+        <div ref={dropRef} className="absolute z-50 top-full mt-2 left-0 right-0 bg-white rounded-xl border border-border shadow-xl overflow-hidden">
           {results.length > 0 ? (
             <>
               <div className="px-4 py-2 bg-card-hover/30 border-b border-border/50">
@@ -233,12 +202,8 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                          isSameCategory
-                            ? "bg-green-light text-green"
-                            : "bg-card-hover text-muted"
-                        }`}>
-                          {r.categoryName}
-                        </span>
+                          isSameCategory ? "bg-green-light text-green" : "bg-card-hover text-muted"
+                        }`}>{r.categoryName}</span>
                         {isSameCategory && (
                           <span className="text-[10px] text-green/60 flex items-center gap-0.5">
                             <CornerDownRight className="w-2.5 h-2.5" />
@@ -259,12 +224,8 @@ function InlineSmartSearch({ currentCategoryId, onJumpToArticle, navigate }) {
             </>
           ) : (
             <div className="px-4 py-6 text-center">
-              <p className="text-sm text-muted">
-                {lang === "id" ? "Tidak ditemukan" : "No results found"}
-              </p>
-              <p className="text-xs text-muted/50 mt-1">
-                {lang === "id" ? "Coba kata kunci lain" : "Try different keywords"}
-              </p>
+              <p className="text-sm text-muted">{lang === "id" ? "Tidak ditemukan" : "No results found"}</p>
+              <p className="text-xs text-muted/50 mt-1">{lang === "id" ? "Coba kata kunci lain" : "Try different keywords"}</p>
             </div>
           )}
         </div>
@@ -279,56 +240,45 @@ export default function CategoryPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { lang, t } = useLanguage();
+  const { getCategoryById, getArticlesByCategory, loading } = useData();
   const category = getCategoryById(id);
   const articles = getArticlesByCategory(id);
 
-  // Track which article to highlight/open
   const [openArticleId, setOpenArticleId] = useState(null);
   const [highlightId, setHighlightId] = useState(null);
-
-  // Refs for each accordion
   const accordionRefs = useRef({});
 
-  // Check URL params for direct-open on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const openId = params.get("open");
-    if (openId) {
-      // Small delay to let DOM render
-      setTimeout(() => jumpToArticle(openId), 100);
-    }
+    if (openId) setTimeout(() => jumpToArticle(openId), 100);
   }, [id]);
 
   const jumpToArticle = useCallback((articleId) => {
     setOpenArticleId(articleId);
     setHighlightId(articleId);
-
-    // Open the accordion via ref
     const ref = accordionRefs.current[articleId];
     if (ref) ref.open();
-
-    // Scroll to it
     setTimeout(() => {
       const el = document.getElementById(`faq-${articleId}`);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 50);
-
-    // Remove highlight after 2.5s
     setTimeout(() => setHighlightId(null), 2500);
   }, []);
+
+  if (loading) {
+    return (
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-24 text-center">
+        <Loader2 className="w-8 h-8 text-green animate-spin mx-auto" />
+      </main>
+    );
+  }
 
   if (!category) {
     return (
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
         <p className="text-muted">Category not found.</p>
-        <Link
-          to="/"
-          className="text-cta hover:underline mt-4 inline-block cursor-pointer"
-        >
-          {t("backToHome")}
-        </Link>
+        <Link to="/" className="text-cta hover:underline mt-4 inline-block cursor-pointer">{t("backToHome")}</Link>
       </main>
     );
   }
@@ -337,33 +287,24 @@ export default function CategoryPage() {
 
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6">
-      {/* Smart Search */}
       <div className="pt-6 pb-4">
         <div className="max-w-lg">
-          <InlineSmartSearch
-            currentCategoryId={id}
-            onJumpToArticle={jumpToArticle}
-            navigate={navigate}
-          />
+          <InlineSmartSearch currentCategoryId={id} onJumpToArticle={jumpToArticle} navigate={navigate} />
         </div>
       </div>
 
-      {/* Category Header */}
       <section className="pb-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 bg-green-light rounded-lg flex items-center justify-center">
             <Icon className="w-5 h-5 text-green" aria-hidden="true" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-text">
-              {category.name[lang]}
-            </h1>
+            <h1 className="text-xl font-bold text-text">{category.name[lang]}</h1>
             <p className="text-sm text-muted">{category.description[lang]}</p>
           </div>
         </div>
       </section>
 
-      {/* Articles */}
       <section className="pb-8">
         {articles.length > 0 ? (
           <div className="space-y-3">
@@ -379,9 +320,7 @@ export default function CategoryPage() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-muted text-sm">
-              {t("noResults")}
-            </p>
+            <p className="text-muted text-sm">{t("noResults")}</p>
           </div>
         )}
       </section>

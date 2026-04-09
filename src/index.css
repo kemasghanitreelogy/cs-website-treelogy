@@ -29,6 +29,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Custom scrollbar for FAQ table */
+.faq-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.faq-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.faq-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+.faq-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+.faq-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

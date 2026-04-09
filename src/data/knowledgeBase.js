@@ -1118,7 +1118,7 @@ export const articles = [
   },
   {
     id: 82,
-    categoryId: "sales-and-conversion",
+    categoryId: "product-details",
     question: {
       id: "Apakah moringa powder endapannya aman diminum?",
       en: "Is the moringa powder sediment safe to drink?",
@@ -1126,6 +1126,670 @@ export const articles = [
     answer: {
       id: "Endapan dari moringa powder aman untuk diminum ya kak. Endapan tersebut merupakan bagian serat dan nutrisi padat dari daun kelor yang memang tidak larut sempurna di air. Justru di endapan tersebut masih ada kandungan vitamin, mineral, dan serat yang bermanfaat.\n\nMoringa powder kami tidak larut sempurna seperti minuman instan karena 100% alami tanpa tambahan pelarut atau zat kimia.",
       en: "Yes, the sediment from moringa powder is completely safe to drink! It consists of fiber and dense nutrients from the moringa leaf that don't fully dissolve in water. This sediment actually still contains beneficial vitamins, minerals, and fiber.\n\nOur moringa powder doesn't dissolve like instant drinks because it's 100% natural with no added solvents or chemicals.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL PRODUCT DISCOVERY (83-85)
+  // ═══════════════════════════════════════
+  {
+    id: 83,
+    categoryId: "product-discovery",
+    question: {
+      id: "Manfaat moringa secara lengkap?",
+      en: "What are the full benefits of moringa?",
+    },
+    answer: {
+      id: "Moringa oleifera adalah tanaman yang tumbuh subur di daerah tropis seperti Indonesia. Daunnya mengandung lebih dari 90 nutrisi penting:\n- 7x vitamin C lebih tinggi dari jeruk\n- 15x potasium dari pisang\n- Kaya akan zat besi, kalsium, protein, dan antioksidan kuat seperti quercetin & klorofil\n\nManfaat utama Moringa (berdasarkan riset ilmiah):\n- Meningkatkan energi dan daya tahan tubuh\n- Mendukung pencernaan sehat & detoksifikasi\n- Menyeimbangkan kadar gula darah\n- Menurunkan tekanan darah secara alami\n- Anti-aging dan membantu regenerasi sel kulit\n- Membantu meredakan inflamasi dan nyeri sendi\n- Bagus untuk ibu menyusui karena bantu melancarkan ASI",
+      en: "Moringa oleifera thrives in tropical regions like Indonesia. Its leaves contain over 90 essential nutrients:\n- 7x more vitamin C than oranges\n- 15x more potassium than bananas\n- Rich in iron, calcium, protein, and powerful antioxidants like quercetin & chlorophyll\n\nKey benefits (backed by scientific research):\n- Boosts energy and strengthens immunity\n- Supports healthy digestion & natural detoxification\n- Helps balance blood sugar levels\n- Naturally supports healthy blood pressure\n- Anti-aging properties and skin cell regeneration\n- Helps relieve inflammation and joint pain\n- Great for breastfeeding mothers — supports milk production",
+    },
+  },
+  {
+    id: 84,
+    categoryId: "product-discovery",
+    question: {
+      id: "Moringa oil manfaat lengkap?",
+      en: "What are the full benefits of moringa oil?",
+    },
+    answer: {
+      id: "Moringa oil kami 100% dari biji kelor yang di cold-pressed, yang memiliki manfaat:\n- Melembapkan kulit secara alami tanpa terasa lengket\n- Menjaga dan memperkuat skin barrier, cocok untuk kulit sensitif\n- Menenangkan iritasi ringan & kemerahan karena sifat anti-inflamasi alaminya\n- Membantu memperbaiki kulit kering, pecah, atau kasar\n- Kaya antioksidan (Vitamin E) untuk melindungi kulit dari stres oksidatif\n- Mendukung regenerasi kulit, membuat kulit lebih halus dan sehat\n- Aman untuk pijat (bayi, anak, maupun dewasa) karena teksturnya ringan\n- Bisa digunakan untuk kulit, rambut, dan kulit kepala\n\nJadi moringa oil merupakan minyak serbaguna yang lembut, menutrisi, dan cocok untuk semua usia, termasuk kulit sensitif.",
+      en: "Our moringa oil is 100% cold-pressed from moringa seeds, with these benefits:\n- Naturally moisturizes skin without feeling greasy\n- Protects and strengthens the skin barrier — perfect for sensitive skin\n- Soothes mild irritation & redness thanks to natural anti-inflammatory properties\n- Helps repair dry, cracked, or rough skin\n- Rich in antioxidants (Vitamin E) to protect skin from oxidative stress\n- Supports skin regeneration for smoother, healthier skin\n- Safe for massage (babies, children, and adults) thanks to its lightweight texture\n- Can be used on skin, hair, and scalp\n\nMoringa oil is a versatile, gentle, and nourishing oil suitable for all ages, including sensitive skin.",
+    },
+  },
+  {
+    id: 85,
+    categoryId: "product-discovery",
+    question: {
+      id: "Bisa konsumsi mulai usia berapa?",
+      en: "From what age can moringa be consumed?",
+    },
+    answer: {
+      id: "Bisa dikonsumsi mulai dari anak usia di atas 6 bulan (yang sudah bisa makan makanan padat), namun dengan dosis kecil & pengawasan orang tua serta konsultasi ke dokter anak ya.",
+      en: "Moringa is great for kids starting from around 6 months (once on solids). Start with a small dosage, and since every little one is unique, a quick check-in with your pediatrician is always a good idea.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL USAGE & DOSAGE (86-97)
+  // ═══════════════════════════════════════
+  {
+    id: 86,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Dosis kapsul untuk anak remaja (11-13 tahun)?",
+      en: "Capsule dosage for teenagers (11-13 years)?",
+    },
+    answer: {
+      id: "Untuk anak usia 11 dan 13 tahun sebenarnya boleh saja konsumsi Moringa, karena kandungannya alami dan tanpa bahan tambahan. Tapi karena ini diformulasikan untuk dewasa, kami sarankan untuk mulai dengan dosis kecil dulu ya, Kak.\n\nUntuk usia 11th & 13th bisa mulai dengan 1 kapsul per hari. Sebaiknya dikonsumsi setelah makan untuk memastikan pencernaannya nyaman.\n\nNamun, jika anak sedang dalam pengawasan dokter atau sedang mengonsumsi obat tertentu, lebih baik dikonsultasikan dulu ya Kak.",
+      en: "Children aged 11-13 can safely take moringa since it's 100% natural with no additives. However, since it's formulated for adults, we recommend starting with a lower dose.\n\nFor ages 11-13, start with 1 capsule per day, taken after meals for digestive comfort.\n\nIf your child is under medical supervision or taking any medications, please consult their doctor first.",
+    },
+  },
+  {
+    id: 87,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Moringa untuk menambah nafsu makan anak?",
+      en: "Can moringa boost children's appetite?",
+    },
+    answer: {
+      id: "Moringa sendiri sebenarnya aman dikonsumsi karena moringa bukan obat, tapi superfood dan sumber nutrisi alami seperti:\n\n- Vitamin C & E untuk mendukung imunitas tubuh\n- Vitamin A untuk menjaga kesehatan mata\n- Tinggi serat untuk mendukung kesehatan pencernaan, dan sebagai detoks alami tubuh\n- Chlorogenic Acid untuk mendukung metabolisme gula darah & antioksidan\n- Magnesium, Vit-K, dan Zat Besi, yang bagus untuk menjaga kesehatan otot, sendi, dan tulang\n\nKarena kandungan nutrisinya yang tinggi, daun kelor juga sangat baik untuk menambah nafsu makan dan nutrisi.",
+      en: "Moringa is safe because it's not a medicine — it's a superfood and natural nutrient source containing:\n\n- Vitamins C & E to support immunity\n- Vitamin A for eye health\n- High fiber for digestive health and natural detoxification\n- Chlorogenic acid to support blood sugar metabolism & antioxidant activity\n- Magnesium, Vitamin K, and Iron for muscle, joint, and bone health\n\nThanks to its rich nutrient profile, moringa is excellent for naturally boosting appetite and nutrition in children.",
+    },
+  },
+  {
+    id: 88,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Detail kandungan magnesium moringa?",
+      en: "Magnesium content in moringa products?",
+    },
+    answer: {
+      id: "Kandungan magnesium moringa kami dalam bentuk powder sekitar 2-2.6 mg/gramnya, sedangkan untuk kapsul sekitar 1-1.3 mg/kapsul, Kak. Di samping itu, moringa juga mengandung mineral dan multivitamin aktif sebagai penambah nutrisi alami bagi tubuh.",
+      en: "Our moringa powder contains approximately 2-2.6 mg of magnesium per gram, while each capsule contains about 1-1.3 mg. Beyond magnesium, moringa is also packed with active minerals and multivitamins that naturally supplement your body's nutritional needs.",
+    },
+  },
+  {
+    id: 89,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Berapa mg kandungan per kapsul moringa?",
+      en: "How many mg of moringa per capsule?",
+    },
+    answer: {
+      id: "Kandungan moringa kapsul kami 100% dari daun kelor yang didehydrated tanpa campuran bahan lain. Jadi bukan ekstrak kelor ya kak. Untuk perkapsulnya mengandung moringa powder 400mg/kapsul.",
+      en: "Our moringa capsules contain 100% dehydrated moringa leaves with no other ingredients — it's not an extract. Each capsule contains 400mg of pure moringa powder.",
+    },
+  },
+  {
+    id: 90,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Apakah moringa mengandung vitamin D dan probiotik?",
+      en: "Does moringa contain vitamin D and probiotics?",
+    },
+    answer: {
+      id: "Moringa tidak mengandung vitamin D dan probiotik secara langsung, ya Kak. Namun, Moringa kaya akan vitamin dan mineral penting seperti vitamin A (beta-karoten), vitamin C, vitamin E, vitamin K, zat besi, kalsium, magnesium, serta antioksidan tinggi yang membantu mendukung sistem imun dan kesehatan tubuh secara keseluruhan.\n\nKarena sumber utama vitamin D berasal dari paparan sinar matahari, Moringa bisa dikombinasikan dengan suplemen vitamin D harian serta kebiasaan berjemur pagi. Kakak juga bisa kombinasikan moringa dengan makanan fermentasi seperti yoghurt atau kefir untuk sumber probiotik supaya manfaatnya lebih optimal.",
+      en: "Moringa doesn't directly contain vitamin D or probiotics. However, it's rich in essential vitamins and minerals including vitamin A (beta-carotene), vitamin C, vitamin E, vitamin K, iron, calcium, magnesium, and powerful antioxidants that support your immune system and overall health.\n\nSince vitamin D primarily comes from sunlight, you can combine moringa with a daily vitamin D supplement and morning sun exposure. For probiotics, pair moringa with fermented foods like yogurt or kefir for optimal benefits.",
+    },
+  },
+  {
+    id: 91,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Sendok ukur bambu (bamboo spoon) takarannya berapa?",
+      en: "How much is one scoop of the bamboo spoon?",
+    },
+    answer: {
+      id: "1 scoop dari bambu spoon kami setara dengan 1/3 sendok teh (1 gram). Untuk pembelian Moringa Powder kami, tidak included dengan sendok ya kak. Penggunaan powder hanya sedikit saja dan bisa ditakar 1-3 gram (1/2 sampai 1 sendok teh).",
+      en: "One scoop of our bamboo spoon equals 1/3 teaspoon (1 gram). Please note that the Moringa Powder doesn't come with a measuring spoon. You only need a small amount — between 1-3 grams (1/2 to 1 teaspoon) per serving.",
+    },
+  },
+  {
+    id: 92,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Moringa powder bisa dibuat resep smoothie apa?",
+      en: "What smoothie recipes can I make with moringa powder?",
+    },
+    answer: {
+      id: "Beberapa resep smoothie enak, sehat, dan gampang dibuat dengan Moringa Powder Treelogy:\n\nMoringa Tropical Smoothie:\n1 sdt moringa powder, 1/2 mangga matang, 1/2 pisang, 200 ml air kelapa, es batu secukupnya. Blender semua bahan, langsung minum segar.\n\nMoringa Banana Almond Smoothie:\n1 sdt moringa powder, 1 pisang beku, 200 ml susu almond, 1 sdm madu. Hasilnya creamy, cocok buat sarapan atau setelah olahraga.\n\nMoringa Berry Glow Smoothie:\n1 sdt moringa powder, 1/2 cangkir stroberi (boleh beku), 1/2 cangkir blueberry, 200 ml yoghurt plain, sedikit madu. Warna cantik + kaya antioksidan.\n\nGreen Energy Smoothie:\n1 sdt moringa powder, 1/2 alpukat, segenggam bayam segar, 200 ml susu oat, 1 sdt chia seeds (opsional). Super kaya serat & lemak sehat.",
+      en: "Here are some delicious, healthy smoothie recipes with Treelogy Moringa Powder:\n\nMoringa Tropical Smoothie:\n1 tsp moringa powder, 1/2 ripe mango, 1/2 banana, 200ml coconut water, ice cubes. Blend everything and enjoy fresh.\n\nMoringa Banana Almond Smoothie:\n1 tsp moringa powder, 1 frozen banana, 200ml almond milk, 1 tbsp honey. Creamy and perfect for breakfast or post-workout.\n\nMoringa Berry Glow Smoothie:\n1 tsp moringa powder, 1/2 cup strawberries (frozen ok), 1/2 cup blueberries, 200ml plain yogurt, a touch of honey. Beautiful color + packed with antioxidants.\n\nGreen Energy Smoothie:\n1 tsp moringa powder, 1/2 avocado, a handful of fresh spinach, 200ml oat milk, 1 tsp chia seeds (optional). Loaded with fiber & healthy fats.",
+    },
+  },
+  {
+    id: 93,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Tidak suka rasa moringa, bagaimana cara minum yang enak?",
+      en: "Don't like the taste of moringa — how to make it taste better?",
+    },
+    answer: {
+      id: "Biar minum Moringa Powder Treelogy lebih mudah dan enak, Kakak bisa coba beberapa cara ini:\n\nCara Minum Simpel:\n1. Larutkan 1/2-1 sdt bubuk moringa ke sedikit air hangat, aduk rata.\n2. Tambahkan air/minuman lain sesuai selera (boleh es juga).\n3. Bisa dicampur jus buah, susu nabati, atau air kelapa biar segar.\n\nResep Kreatif:\n- Moringa Latte: Bubuk moringa + susu nabati + madu. Hangat & creamy.\n- Energy Balls: Kurma, kacang almond, kacang kenari, 2 sdm moringa powder, sedikit minyak kelapa — bentuk bola kecil.\n- Pesto Moringa: Bubuk moringa + minyak zaitun + kacang + bawang putih — blender, jadi saus pasta/camilan.\n- Masker Wajah: 1 sdm bubuk moringa + 1 sdt madu + beberapa tetes Moringa Seed Oil — oles, diamkan 15 menit.",
+      en: "Here are some ways to make Treelogy Moringa Powder tastier:\n\nSimple Method:\n1. Dissolve 1/2-1 tsp moringa powder in a little warm water and stir well.\n2. Add more water or your favorite drink (iced works too!).\n3. Mix with fruit juice, plant-based milk, or coconut water for a refreshing twist.\n\nCreative Recipes:\n- Moringa Latte: Moringa powder + plant milk + honey. Warm & creamy.\n- Energy Balls: Dates, almonds, walnuts, 2 tbsp moringa powder, a little coconut oil — roll into small balls.\n- Moringa Pesto: Moringa powder + olive oil + nuts + garlic — blend into a pasta sauce or dip.\n- Face Mask: 1 tbsp moringa powder + 1 tsp honey + a few drops of Moringa Seed Oil — apply and leave for 15 minutes.",
+    },
+  },
+  {
+    id: 94,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Kenapa terasa pedas di tenggorokan setelah minum moringa?",
+      en: "Why does moringa feel spicy in my throat?",
+    },
+    answer: {
+      id: "Daun Moringa (daun kelor) memiliki kandungan alami seperti:\n- Isothiocyanate sebagai anti-bakteri alami untuk detoksifikasi tubuh\n- Polifenol sebagai anti-oksidan untuk melindungi sel-sel tubuh akibat radikal bebas\n- Chlorogenic acid sebagai anti-inflamasi alami untuk meredakan peradangan\n- Klorofil Moringa yang tinggi, mengandung berbagai vitamin seperti Vit-A, Vit-C, dan Vit-E untuk mendukung daya tahan tubuh\n\nKandungan alaminya yang tinggi dari daun Moringa akan memberikan sensasi hangat atau sedikit pedas di tenggorokan, terutama kalau diminum dengan air hangat atau dalam takaran yang agak banyak. Kakak bisa menyeduh Moringa Powder agar rasanya lebih smooth — bisa dicampur air suhu ruang, jus, perasan lemon, madu, atau susu supaya lebih enak dan nyaman di tenggorokan.",
+      en: "Moringa leaves naturally contain:\n- Isothiocyanates — natural antibacterials that support detoxification\n- Polyphenols — antioxidants that protect cells from free radical damage\n- Chlorogenic acid — a natural anti-inflammatory compound\n- High chlorophyll content with vitamins A, C, and E for immune support\n\nThese potent natural compounds can create a warm or slightly spicy sensation in the throat, especially when taken with warm water or in larger amounts. To make it smoother, try mixing your Moringa Powder with room temperature water, juice, lemon, honey, or milk for a more comfortable and enjoyable experience.",
+    },
+  },
+  {
+    id: 95,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Cara pakai moringa oil secara detail (wajah, rambut, body)?",
+      en: "How to use moringa oil in detail (face, hair, body)?",
+    },
+    answer: {
+      id: "Untuk moringa oilnya bisa dipakai untuk wajah seperti serum, untuk kulit rambut seperti hair mask/hair oil, dan bisa dicampurkan dengan handbody atau jadi body serum.\n\nCara pemakaiannya cukup tuangkan beberapa tetes secukupnya dan dioles ke area yang mau kakak inginkan — bisa wajah (seperti serum), rambut (seperti hair oil), dan dicampur dengan handbody (seperti body serum).",
+      en: "Moringa oil can be used as a face serum, hair mask/hair oil, or mixed with body lotion as a body serum.\n\nSimply dispense a few drops and apply to your desired area — on the face (like a serum), on hair (like a hair oil), or mixed into body lotion (like a body serum).",
+    },
+  },
+  {
+    id: 96,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Cara pakai moringa oil sebagai hair mask?",
+      en: "How to use moringa oil as a hair mask?",
+    },
+    answer: {
+      id: "Sebagai Hair Mask (untuk memperkuat akar rambut dan membantu pertumbuhan):\n- Teteskan 3-5 tetes Moringa Oil di kulit kepala.\n- Usap kulit kepala sambil dipijat lembut 2-3 menit.\n- Diamkan 30-60 menit (atau overnight kalau mau maksimal).\n- Cuci rambut seperti biasa.\n- Lakukan 1-2x seminggu.\n\nKakak juga bisa padukan dengan shampoo yang berbahan alami dan bebas sulfat/bahan kimia yang keras untuk hasil yang maksimal.",
+      en: "As a Hair Mask (to strengthen hair roots and promote growth):\n- Apply 3-5 drops of Moringa Oil to the scalp.\n- Gently massage the scalp for 2-3 minutes.\n- Leave on for 30-60 minutes (or overnight for maximum results).\n- Wash hair as usual.\n- Repeat 1-2 times per week.\n\nFor best results, pair with a natural, sulfate-free shampoo.",
+    },
+  },
+  {
+    id: 97,
+    categoryId: "usage-and-dosage",
+    question: {
+      id: "Bubuk dan kapsul bisa diminum bergantian?",
+      en: "Can I alternate between powder and capsules?",
+    },
+    answer: {
+      id: "Jika konsumsi powder dan kapsul, bisa diminum secara terpisah (misalnya menunggu kapsul habis dulu, baru konsumsi powder) atau bisa juga diminum bergantian dalam sehari (misalnya powder pagi, kapsul malam). Sebaiknya tidak dicampur karena keduanya mengandung 100% daun kelor dengan manfaat yang serupa ya kak. Pastikan juga dosis hariannya sesuai anjuran.",
+      en: "You can take powder and capsules separately — either finish one before starting the other, or alternate within the same day (e.g., powder in the morning, capsules in the evening). It's best not to mix them together since both contain 100% moringa leaves with the same benefits. Just make sure your total daily dosage stays within the recommended amount.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL BENEFITS & CONCERNS (98-100)
+  // ═══════════════════════════════════════
+  {
+    id: 98,
+    categoryId: "benefits-and-concerns",
+    question: {
+      id: "Moringa untuk haid dan siklus menstruasi?",
+      en: "Moringa for menstrual cycle and period health?",
+    },
+    answer: {
+      id: "Moringa dikenal dapat secara alami membantu menyeimbangkan hormon tubuh yang bisa berdampak positif pada siklus menstruasi juga. Tentu setiap tubuh bisa merespons dengan cara yang berbeda ya. Kami sarankan konsumsi rutin dulu sambil tetap memperhatikan respon tubuh. Apabila ingin hasil maksimal, bisa juga dikombinasikan dengan pola hidup sehat dan cukup istirahat.",
+      en: "Moringa is known to naturally help balance hormones, which can have a positive impact on your menstrual cycle. Of course, every body responds differently. We recommend consistent daily use while paying attention to how your body responds. For the best results, combine moringa with a healthy lifestyle and adequate rest.",
+    },
+  },
+  {
+    id: 99,
+    categoryId: "benefits-and-concerns",
+    question: {
+      id: "Moringa untuk kulit berjerawat?",
+      en: "Moringa for acne-prone skin?",
+    },
+    answer: {
+      id: "Terkait jerawat hormonal, moringa dapat mendukung detoksifikasi dan keseimbangan hormon. Namun, perlu diimbangi dengan perawatan kulit juga dan pola hidup sehat supaya hasilnya lebih efektif.",
+      en: "For hormonal acne, moringa can support detoxification and hormonal balance. However, it should be complemented with a proper skincare routine and healthy lifestyle for the most effective results.",
+    },
+  },
+  {
+    id: 100,
+    categoryId: "benefits-and-concerns",
+    question: {
+      id: "Moringa untuk kesuburan pria dan wanita?",
+      en: "Moringa benefits for male and female fertility?",
+    },
+    answer: {
+      id: "Moringa dikenal dapat mendukung kesuburan baik pria maupun wanita karena kandungan nutrisinya yang lengkap. Untuk pria, moringa membantu meningkatkan kualitas dan jumlah sperma berkat kandungan antioksidan, zinc, dan vitamin E. Untuk wanita, moringa membantu menyeimbangkan hormon dan mendukung kesehatan reproduksi.\n\nNamun, jika kakak sedang menjalani program hamil (promil) atau dalam pengawasan dokter, tetap konsultasikan terlebih dahulu ya.",
+      en: "Moringa is known to support fertility in both men and women thanks to its comprehensive nutrient profile. For men, moringa helps improve sperm quality and count with its antioxidants, zinc, and vitamin E. For women, moringa helps balance hormones and supports reproductive health.\n\nIf you're actively trying to conceive or under medical supervision, please consult your doctor first.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL SAFETY & HEALTH (101-107)
+  // ═══════════════════════════════════════
+  {
+    id: 101,
+    categoryId: "safety-and-health",
+    question: {
+      id: "BAB lebih sering atau diare setelah minum moringa?",
+      en: "More frequent bowel movements or diarrhea after taking moringa?",
+    },
+    answer: {
+      id: "Secara umum, daun kelor (Moringa) memang memiliki sifat detoksifikasi alami yang cukup kuat. Bagi sebagian orang yang baru pertama kali mengonsumsinya, bisa muncul reaksi adaptasi seperti BAB lebih lancar atau bahkan diare ringan. Ini bukan efek samping berbahaya, tapi lebih ke cara tubuh mengeluarkan racun dan menyesuaikan diri dengan kandungan nutrisinya yang tinggi.\n\nKakak bisa coba konsumsi setelah makan, dan mulai dari takaran yang kecil dulu (setengah sendok teh / 1 gram powder). Kalau tubuh sudah lebih terbiasa, baru ditingkatkan perlahan ke dosis harian (3 gram per hari).\n\nKami mengutamakan kenyamanan Kakak, jadi jika reaksi terus berlanjut, sebaiknya hentikan sementara dan konsultasi ke tenaga medis.",
+      en: "Moringa has naturally strong detoxification properties. For some first-time users, the body may react with more frequent bowel movements or mild diarrhea. This isn't a harmful side effect — it's your body's way of flushing out toxins and adjusting to the high nutrient content.\n\nTry taking it after meals and start with a small amount (half a teaspoon / 1 gram of powder). Once your body adjusts, gradually increase to the daily recommended dose (3 grams per day).\n\nYour comfort is our priority — if the reaction persists, pause temporarily and consult a healthcare professional.",
+    },
+  },
+  {
+    id: 102,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Gatal-gatal atau bintik setelah minum moringa (reaksi detox)?",
+      en: "Itching or spots after taking moringa (detox reaction)?",
+    },
+    answer: {
+      id: "Moringa sendiri sebenarnya tidak menyebabkan gatal secara langsung. Namun, kalau dikonsumsi dengan dosis yang cukup tinggi (seperti 4 kapsul per hari), tubuh bisa mengalami reaksi detoksifikasi, terutama karena Moringa kaya antioksidan dan klorofil yang membantu membersihkan racun dari tubuh. Pada beberapa orang, proses ini bisa memunculkan reaksi ringan seperti gatal-gatal atau muncul bintik halus, yang menandakan tubuh sedang menyesuaikan diri.\n\nKakak bisa mulai konsumsi dengan dosis kecil terlebih dahulu, yaitu 1-2 kapsul per hari (sekali minum 1 kapsul), sambil melihat bagaimana respon tubuh Kakak. Setelah tubuh sudah beradaptasi, dosisnya bisa ditingkatkan perlahan sesuai kebutuhan.",
+      en: "Moringa doesn't directly cause itching. However, when taken at higher doses (like 4 capsules per day), your body may experience a detoxification reaction. Moringa is rich in antioxidants and chlorophyll that help cleanse toxins from the body. For some people, this process can trigger mild reactions like itching or small spots — a sign that your body is adjusting.\n\nStart with a small dose of 1-2 capsules per day (1 capsule at a time) and observe how your body responds. Once adjusted, you can gradually increase the dosage to meet your needs.",
+    },
+  },
+  {
+    id: 103,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Merasa gelisah atau tegang setelah minum moringa?",
+      en: "Feeling restless or tense after taking moringa?",
+    },
+    answer: {
+      id: "Moringa sendiri sebenarnya tidak menyebabkan rasa marah atau stres. Namun, kemungkinan besar tubuh kakak sedang dalam kondisi lelah, kurang tidur, atau hormon yang sedang tidak seimbang. Moringa kaya akan zat besi dan antioksidan yang membantu meningkatkan metabolisme dan energi tubuh. Tapi jika dikonsumsi berlebihan (seperti 5 kapsul sekaligus), efeknya bisa membuat tubuh terasa terlalu aktif, sehingga muncul rasa tegang atau gelisah.\n\nKakak bisa mulai konsumsi dengan dosis kecil terlebih dahulu, yaitu 1-2 kapsul per hari (sekali minum 1 kapsul), sambil melihat bagaimana respon tubuh Kakak. Setelah tubuh sudah beradaptasi, dosisnya bisa ditingkatkan perlahan sesuai kebutuhan.",
+      en: "Moringa doesn't inherently cause irritability or stress. However, if your body is already tired, sleep-deprived, or experiencing hormonal imbalance, moringa's iron and antioxidant content can boost metabolism and energy. Taking too much at once (like 5 capsules) may make your body feel overstimulated, leading to tension or restlessness.\n\nStart with a small dose of 1-2 capsules per day (1 at a time) and observe your body's response. Once adjusted, you can gradually increase as needed.",
+    },
+  },
+  {
+    id: 104,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Sariawan atau panas dalam setelah minum moringa?",
+      en: "Canker sores or internal heat after taking moringa?",
+    },
+    answer: {
+      id: "Secara umum, daun kelor (Moringa) memiliki kandungan nutrisi dan antioksidan yang cukup tinggi. Pada sebagian orang yang baru pertama kali mengonsumsinya, bisa muncul reaksi adaptasi tubuh seperti sariawan atau rasa panas dalam. Ini biasanya bukan efek samping berbahaya, melainkan tanda tubuh sedang menyesuaikan diri dengan asupan nutrisi yang meningkat.\n\nKakak bisa coba konsumsi setelah makan, dan mulai dari dosis yang kecil dulu (1-2 kapsul per hari, sekali minum 1 kapsul) sambil diimbangi dengan minum air putih yang banyak. Kalau tubuh sudah lebih terbiasa, baru ditingkatkan perlahan ke dosis harian (3 kapsul per hari).\n\nKami mengutamakan kenyamanan Kakak, jadi jika reaksi terus berlanjut, sebaiknya hentikan sementara dan konsultasi ke dokter.",
+      en: "Moringa is naturally high in nutrients and antioxidants. For some first-time users, the body may react with canker sores or a feeling of internal heat. This is typically not a harmful side effect — it's a sign your body is adjusting to the increased nutrient intake.\n\nTry taking it after meals and start with a low dose (1-2 capsules per day, 1 at a time) while drinking plenty of water. Once your body has adjusted, gradually increase to the standard daily dose (3 capsules per day).\n\nYour comfort comes first — if the reaction persists, pause temporarily and consult your doctor.",
+    },
+  },
+  {
+    id: 105,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Apakah zat besi tinggi di moringa berbahaya?",
+      en: "Is the high iron content in moringa dangerous?",
+    },
+    answer: {
+      id: "Tidak perlu khawatir ya, karena yang berisiko itu konsumsi zat besi dosis tinggi secara berlebihan terutama dari suplemen iron dosis tinggi tanpa pengawasan medis.\n\nSedangkan, produk kami hanya 100% daun kelor murni. Zat besinya hadir alami sebagai bagian dari nutrisi daun, bukan tambahan sintetis.\n\nJadi, umumnya akan tetap aman jika dikonsumsi sesuai dosis harian anjuran.",
+      en: "No need to worry! The risk comes from excessive high-dose iron supplements taken without medical supervision.\n\nOur products are 100% pure moringa leaves. The iron is naturally present as part of the leaf's nutrition — not added synthetically.\n\nSo it's generally safe when consumed at the recommended daily dosage.",
+    },
+  },
+  {
+    id: 106,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Aman konsumsi moringa dengan obat Ascardia?",
+      en: "Is moringa safe to take with Ascardia medication?",
+    },
+    answer: {
+      id: "Sejauh ini, belum ada bukti ilmiah yang menunjukkan interaksi negatif antara Ascardia dan Moringa. Justru kombinasi Moringa dan Ascardia bisa saling melengkapi untuk menjaga kesehatan jantung.\n\nAscardia fungsinya untuk mencegah penggumpalan darah, kalau Moringa memberi nutrisi alami untuk mendukung fungsi jantung & pembuluh darah.\n\nNamun, karena kakak sedang konsumsi obat medis dengan resep dokter seperti Ascardia, ada baiknya untuk tetap berkonsultasi terlebih dahulu dengan dokter agar aman.",
+      en: "So far, there's no scientific evidence of a negative interaction between Ascardia and moringa. In fact, they can complement each other for heart health.\n\nAscardia works to prevent blood clotting, while moringa provides natural nutrients that support heart and blood vessel function.\n\nHowever, since you're taking a prescribed medication like Ascardia, we recommend consulting your doctor first to ensure safety.",
+    },
+  },
+  {
+    id: 107,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Aman konsumsi moringa dengan suplemen Red Clover?",
+      en: "Is moringa safe with Red Clover supplements?",
+    },
+    answer: {
+      id: "Sejauh ini, belum ada bukti ilmiah yang menunjukkan interaksi negatif antara Red Clover dan Moringa. Justru kombinasi Moringa dan Red Clover bisa saling melengkapi untuk bantu keluhan menopause, kesehatan tulang, atau jantung.\n\nRed Clover fungsinya untuk mendukung keseimbangan hormon wanita dan mengurangi gejala menopause, kalau Moringa memberi nutrisi alami untuk mendukung imunitas, kesehatan tulang, metabolisme, dan anti-inflamasi.\n\nNamun, jika kakak memiliki kondisi medis tertentu & sedang konsumsi obat medis, ada baiknya untuk tetap berkonsultasi terlebih dahulu dengan dokter agar aman.",
+      en: "There's no scientific evidence of a negative interaction between Red Clover and moringa. In fact, they can complement each other for menopause support, bone health, and heart health.\n\nRed Clover supports women's hormonal balance and reduces menopause symptoms, while moringa provides natural nutrients for immunity, bone health, metabolism, and anti-inflammation.\n\nIf you have specific medical conditions or take medications, please consult your doctor first.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL CONDITIONS & DISEASES (108-118)
+  // ═══════════════════════════════════════
+  {
+    id: 108,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Aman konsumsi moringa dengan suplemen Evening Primrose?",
+      en: "Is moringa safe with Evening Primrose supplements?",
+    },
+    answer: {
+      id: "Sejauh ini, belum ada bukti ilmiah yang menunjukkan interaksi negatif antara Primrose dan Moringa. Justru, kombinasi keduanya bisa saling melengkapi untuk mendukung kesehatan wanita secara menyeluruh.\n\nPrimrose berfungsi membantu keseimbangan hormon, mengurangi keluhan PMS, nyeri payudara, mood swing, serta mendukung kesehatan kulit. Kalau Moringa (daun kelor) memberi nutrisi alami untuk mendukung imunitas, kesehatan tulang, metabolisme, dan anti-inflamasi.\n\nNamun, jika kakak memiliki kondisi medis tertentu & sedang konsumsi obat medis, ada baiknya untuk tetap berkonsultasi terlebih dahulu dengan dokter supaya tetap aman.",
+      en: "There's no scientific evidence of a negative interaction between Evening Primrose and moringa. In fact, they complement each other well for comprehensive women's health.\n\nEvening Primrose helps with hormonal balance, PMS relief, breast tenderness, mood swings, and skin health. Moringa provides natural nutrients for immunity, bone health, metabolism, and anti-inflammation.\n\nIf you have specific medical conditions or take medications, please consult your doctor first.",
+    },
+  },
+  {
+    id: 109,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan PCOS / gangguan hormonal?",
+      en: "Moringa and PCOS / hormonal imbalance?",
+    },
+    answer: {
+      id: "Daun Moringa (daun kelor) bisa membantu secara alami untuk PCOS, gangguan hormon, mood swing, dan haid yang tidak teratur, karena mengandung nutrisi yang lengkap, seperti:\n\n- Kalsium, Magnesium & Vitamin K: Membantu menjaga kesehatan lutut, sendi, pinggang, dan tulang. Ketidakseimbangan hormon sering bikin tubuh mudah pegal & lemas, jadi nutrisi ini sangat membantu menopang kondisi tubuh sehari-hari.\n\n- Zat Besi & Vitamin B Kompleks: Membantu mengatasi kelelahan, badan lemas, dan memperlancar peredaran darah. Sangat bermanfaat untuk perempuan dengan PCOS yang sering mengalami fatigue dan energi menurun.\n\n- Flavonoid & Asam Amino Esensial: Bertindak sebagai adaptogen alami untuk membantu tubuh beradaptasi dengan hormon. Ini membantu mengurangi mood swing, stres, menenangkan suasana hati, dan memperbaiki pola tidur.\n\n- Polyphenol, Vitamin C & E: Bekerja sebagai antioksidan alami untuk menurunkan peradangan dalam tubuh. Ini juga membantu meredakan rasa panas tiba-tiba dan ketidaknyamanan yang sering muncul saat hormon tidak stabil.\n\n- Oleic Acid & Isothiocyanate: Bersifat anti-inflamasi alami untuk mengurangi pegal-pegal, nyeri otot, serta nyeri haid yang biasanya lebih parah pada PCOS.\n\nJadi, konsumsi daun kelor bisa membantu menstabilkan hormon, mengurangi gejala, dan mendukung kesehatan tubuh secara menyeluruh.",
+      en: "Moringa can naturally support PCOS, hormonal imbalance, mood swings, and irregular periods thanks to its comprehensive nutrients:\n\n- Calcium, Magnesium & Vitamin K: Support bone, joint, and muscle health. Hormonal imbalance often causes body aches and fatigue — these nutrients help maintain daily comfort.\n\n- Iron & B-Complex Vitamins: Combat fatigue, weakness, and support blood circulation. Especially beneficial for women with PCOS who often experience low energy.\n\n- Flavonoids & Essential Amino Acids: Act as natural adaptogens to help the body adjust to hormonal changes. They help reduce mood swings, stress, and improve sleep patterns.\n\n- Polyphenols, Vitamins C & E: Natural antioxidants that reduce internal inflammation. They also help relieve hot flashes and discomfort that often occur with hormonal instability.\n\n- Oleic Acid & Isothiocyanates: Natural anti-inflammatories that reduce body aches, muscle pain, and menstrual cramps — often more severe with PCOS.\n\nOverall, moringa can help stabilize hormones, reduce symptoms, and support your overall well-being.",
+    },
+  },
+  {
+    id: 110,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan gonarthrosis (nyeri lutut)?",
+      en: "Moringa and gonarthrosis (knee pain)?",
+    },
+    answer: {
+      id: "Moringa (daun kelor) dikenal tinggi kandungan antioksidan dan antiinflamasi alami, seperti:\n\n- Quercetin dan chlorogenic acid: membantu mengurangi peradangan pada sendi lutut.\n- Vitamin C dan E: membantu meredakan stres oksidatif di jaringan sendi, sehingga memperlambat proses kerusakan tulang rawan lutut.\n- Kandungan kalsium dan magnesium juga mendukung kesehatan tulang dan sendi secara keseluruhan.\n\nNamun perlu dicatat ya Kak, Moringa bukan obat untuk gonarthrosis. Moringa tidak memperbaiki kerusakan tulang rawan secara langsung, tapi membantu mengurangi peradangan dan stres oksidatif yang memperburuk nyeri sendi. Dengan kandungan antioksidan dan mineralnya, Moringa bisa menjadi dukungan alami untuk menjaga kesehatan sendi dan tulang lutut.\n\nJika kakak sedang konsumsi obat medis tertentu untuk Gonarthrosis, tetap konsultasikan terlebih dahulu dengan dokter.",
+      en: "Moringa is rich in natural antioxidants and anti-inflammatory compounds:\n\n- Quercetin and chlorogenic acid: help reduce inflammation in knee joints.\n- Vitamins C and E: help relieve oxidative stress in joint tissue, slowing cartilage deterioration.\n- Calcium and magnesium content supports overall bone and joint health.\n\nPlease note that moringa is not a cure for gonarthrosis. It doesn't directly repair cartilage damage, but it helps reduce inflammation and oxidative stress that worsen joint pain. Its antioxidant and mineral content makes it a natural support for maintaining knee joint and bone health.\n\nIf you're taking specific medications for gonarthrosis, please consult your doctor first.",
+    },
+  },
+  {
+    id: 111,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan osteoarthritis?",
+      en: "Moringa and osteoarthritis?",
+    },
+    answer: {
+      id: "Moringa kaya akan antioksidan, vitamin, mineral, dan senyawa anti inflamasi yang banyak dikonsumsi untuk membantu mengurangi peradangan, termasuk meredakan nyeri sendi.\n\nNamun perlu kami sampaikan juga bahwa moringa bukan pengganti obat medis ya, dan manfaatnya lebih ke arah mendukung kesehatan secara menyeluruh, bukan menyembuhkan secara langsung.\n\nJika Kakak memiliki kondisi kesehatan tertentu seperti osteoarthritis atau sedang mengonsumsi pengobatan, kami sarankan untuk konsultasi ke tenaga medis terlebih dahulu supaya memastikan sesuai dengan kebutuhan tubuh.",
+      en: "Moringa is rich in antioxidants, vitamins, minerals, and anti-inflammatory compounds that many people take to help reduce inflammation, including joint pain relief.\n\nHowever, moringa is not a replacement for medical treatment. Its benefits are more about supporting overall health rather than directly curing conditions.\n\nIf you have osteoarthritis or are currently on medication, we recommend consulting your healthcare provider first to ensure it's right for your needs.",
+    },
+  },
+  {
+    id: 112,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan nyeri saraf?",
+      en: "Moringa and nerve pain?",
+    },
+    answer: {
+      id: "Kapsul kami mengandung antioksidan dan senyawa anti-inflamasi alami yang membantu tubuh mengelola peradangan. Pada beberapa orang, ketika peradangan lebih terkendali dan kebutuhan mikronutrien tercukupi, rasa tidak nyaman bisa terasa lebih ringan.\n\nTapi bukan pengganti pengobatan medis untuk nyeri saraf, ya. Jika nyeri sarafnya cukup intens atau memiliki kondisi tertentu, tetap penting untuk konsultasi dengan dokter. Treelogy bisa menjadi dukungan nutrisi harian alami.",
+      en: "Our capsules contain natural antioxidants and anti-inflammatory compounds that help the body manage inflammation. For some people, when inflammation is better controlled and micronutrient needs are met, discomfort may feel lighter.\n\nHowever, moringa is not a substitute for medical treatment for nerve pain. If your nerve pain is intense or you have a specific condition, it's important to consult your doctor. Treelogy can serve as a natural daily nutritional support.",
+    },
+  },
+  {
+    id: 113,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan nyeri umum / inflamasi?",
+      en: "Moringa and general pain / inflammation?",
+    },
+    answer: {
+      id: "Banyak yang mengonsumsi moringa untuk bantu kurangi peradangan kak, karena kaya akan antioksidan dan senyawa anti-inflamasi.\n\nNamun, apabila sedang memiliki kondisi kesehatan tertentu atau sedang mengonsumsi obat pereda nyeri, kami sarankan tetap konsultasikan ke dokter terlebih dahulu.",
+      en: "Many people take moringa to help reduce inflammation, as it's rich in antioxidants and anti-inflammatory compounds.\n\nHowever, if you have a specific health condition or are taking pain relief medication, we recommend consulting your doctor first.",
+    },
+  },
+  {
+    id: 114,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa aman setelah kemoterapi?",
+      en: "Is moringa safe after chemotherapy?",
+    },
+    answer: {
+      id: "Moringa umumnya aman dikonsumsi untuk kakak yang pernah menjalani kemoterapi, jika dalam dosis wajar atau sesuai anjuran. Bahkan beberapa studi menunjukkan potensi manfaatnya untuk membantu meredakan stres oksidatif pada tubuh. Selain itu moringa kami juga mengandung 100% daun kelor tanpa campuran bahan lain.\n\nNamun, kembali lagi jika memiliki kondisi kesehatan tertentu atau mengonsumsi obat medis, kami tetap sarankan untuk berkonsultasi dengan dokter.",
+      en: "Moringa is generally safe for those who have undergone chemotherapy, when taken at recommended doses. Some studies even suggest it may help relieve oxidative stress in the body. Our moringa contains 100% pure moringa leaves with no other ingredients.\n\nHowever, if you have specific health conditions or are on medication, we always recommend consulting your doctor.",
+    },
+  },
+  {
+    id: 115,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan psoriasis? Produk apa yang cocok?",
+      en: "Moringa and psoriasis? Which product is best?",
+    },
+    answer: {
+      id: "Psoriasis yang merupakan bagian dari autoimun memang perlu pendekatan dari dalam juga. Moringa (daun kelor) dikenal secara ilmiah memiliki sifat anti-inflamasi, antioksidan, dan imunomodulator, yang bisa membantu meredakan peradangan dan mendukung sistem imun agar lebih seimbang — yang sangat penting bagi penderita autoimun seperti psoriasis.\n\nUntuk anjuran:\n- Kami sangat menyarankan mulai dari Treelogy Moringa Kapsul, karena lebih terukur dan mudah dicerna tubuh.\n- Dosis awal: 1 kapsul setelah makan pagi selama 3 hari pertama, lalu naikkan menjadi 2 kapsul per hari (pagi & malam).\n\nKami juga ada Moringa Seed Oil yang dibuat dari 100% cold-pressed oil dari biji kelor murni. Oil ini bisa membantu:\n- Meredakan inflamasi dan iritasi kulit, cocok untuk psoriasis atau eczema\n- Melembapkan secara mendalam tanpa membuat kulit berminyak berlebih\n- Kaya antioksidan (Vitamin E & Zeatin) untuk mencegah penuaan dini\n- Membantu memperbaiki skin barrier dan mempercepat regenerasi kulit\n\nTetap konsultasikan dengan dokter yang menangani Kakak agar bisa dipantau bersama.",
+      en: "Psoriasis, as an autoimmune condition, requires an inside-out approach. Moringa is scientifically known for its anti-inflammatory, antioxidant, and immunomodulatory properties — which help ease inflammation and balance the immune system, crucial for autoimmune conditions like psoriasis.\n\nOur recommendation:\n- Start with Treelogy Moringa Capsules for measurable, easy-to-digest support.\n- Initial dose: 1 capsule after breakfast for the first 3 days, then increase to 2 capsules per day (morning & evening).\n\nWe also offer Moringa Seed Oil, 100% cold-pressed from pure moringa seeds. This oil can:\n- Soothe inflammation and skin irritation — ideal for psoriasis or eczema\n- Deeply moisturize without leaving skin overly oily\n- Rich in antioxidants (Vitamin E & Zeatin) for anti-aging\n- Help repair the skin barrier and accelerate skin regeneration\n\nAlways consult your treating doctor so they can monitor your progress.",
+    },
+  },
+  {
+    id: 116,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan GERD plus kolesterol?",
+      en: "Moringa for GERD and cholesterol combined?",
+    },
+    answer: {
+      id: "Produk Treelogy Moringa aman dikonsumsi untuk kebanyakan orang, termasuk yang memiliki kolesterol dan GERD, karena kandungannya hanya 100% daun kelor murni yang dikeringkan secara alami, tanpa campuran apapun. Kandungan nutrisi alaminya kaya antioksidan, serat, vitamin, dan mineral yang dapat mendukung kesehatan tubuh, termasuk membantu menjaga kadar kolesterol tetap lebih stabil serta mendukung kesehatan pencernaan.\n\nUntuk GERD, banyak pengguna kami yang justru merasa lebih nyaman pencernaannya setelah rutin konsumsi, tapi tetap disarankan untuk mulai dari dosis kecil terlebih dahulu.\n\nPerlu dicatat, Moringa bukan obat, melainkan penambah nutrisi alami yang dapat membantu mendukung kesehatan pencernaan dan membantu menjaga kadar kolesterol tetap stabil. Tetap konsultasikan terlebih dahulu dengan dokter.",
+      en: "Treelogy Moringa is safe for most people, including those with cholesterol issues and GERD, since it contains only 100% naturally dried pure moringa leaves with no additives. Its natural nutrient profile — rich in antioxidants, fiber, vitamins, and minerals — supports overall health, helps maintain stable cholesterol levels, and supports digestive health.\n\nFor GERD, many of our users actually feel more digestive comfort after regular use, but we still recommend starting with a small dose.\n\nPlease note: moringa is not a medicine but a natural nutrient supplement that can help support digestive health and cholesterol stability. Always consult your doctor first.",
+    },
+  },
+  {
+    id: 117,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan diabetes plus hipertensi?",
+      en: "Moringa for diabetes and hypertension combined?",
+    },
+    answer: {
+      id: "Daun kelor (Moringa) dikenal membantu menjaga kadar gula darah tetap stabil berkat kandungan isothiocyanate, polifenol, dan serat alami yang mendukung sensitivitas insulin dan memperlambat penyerapan gula. Produk kami mengandung 100% daun kelor yang dikeringkan tanpa campuran bahan lain maupun gula.\n\nSelain itu, Moringa juga membantu menjaga tekanan darah tetap stabil karena kaya kalium, magnesium, dan antioksidan yang mendukung kesehatan pembuluh darah. Moringa aman sebagai dukungan alami untuk diabetes dan hipertensi, namun bila kakak sedang mengonsumsi obat medis, tetap konsultasikan terlebih dahulu dengan dokter.",
+      en: "Moringa is known to help maintain stable blood sugar levels thanks to its isothiocyanates, polyphenols, and natural fiber that support insulin sensitivity and slow sugar absorption. Our product contains 100% dried moringa leaves with no additives or sugar.\n\nAdditionally, moringa helps maintain stable blood pressure due to its potassium, magnesium, and antioxidant content that support blood vessel health. Moringa is safe as a natural support for both diabetes and hypertension, but if you're taking medication, please consult your doctor first.",
+    },
+  },
+  {
+    id: 118,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa dan Hashimoto / FNH?",
+      en: "Moringa and Hashimoto's / FNH conditions?",
+    },
+    answer: {
+      id: "Untuk kondisi Hashimoto atau FNH (Focal Nodular Hyperplasia), moringa bisa menjadi dukungan nutrisi alami karena sifat anti-inflamasi dan antioksidannya. Namun, karena kondisi ini berkaitan dengan sistem imun dan fungsi organ tertentu, sangat penting untuk berkonsultasi dengan dokter sebelum memulai konsumsi moringa.\n\nDokter bisa memberikan arahan yang tepat mengenai dosis dan apakah moringa cocok dikombinasikan dengan pengobatan yang sedang kakak jalani.",
+      en: "For conditions like Hashimoto's or FNH (Focal Nodular Hyperplasia), moringa can serve as a natural nutritional support due to its anti-inflammatory and antioxidant properties. However, since these conditions involve the immune system and specific organ functions, it's very important to consult your doctor before starting moringa.\n\nYour doctor can provide proper guidance on dosage and whether moringa is compatible with your current treatment.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL MORINGA OIL (119-121)
+  // ═══════════════════════════════════════
+  {
+    id: 119,
+    categoryId: "moringa-oil",
+    question: {
+      id: "Moringa oil untuk kulit kepala? Cara pakai?",
+      en: "Moringa oil for scalp? How to use?",
+    },
+    answer: {
+      id: "Cara pemakaiannya untuk kulit kepala, bisa digunakan sebelum keramas sebagai perawatan 20 menit atau masker semalaman. Bisa gunakan juga di ujung rambut secukupnya saat masih basah.",
+      en: "For scalp use, apply moringa oil before shampooing as a 20-minute treatment or an overnight mask. You can also apply a small amount to the tips of your hair while it's still damp.",
+    },
+  },
+  {
+    id: 120,
+    categoryId: "moringa-oil",
+    question: {
+      id: "Moringa oil untuk ruam merah dan gatal?",
+      en: "Moringa oil for redness and itching?",
+    },
+    answer: {
+      id: "Moringa oil kami dapat membantu menenangkan iritasi dan kemerahan, serta membantu regenerasi kulit. Teksturnya ringan dan mudah meresap, sehingga cocok untuk kulit yang sedang mengalami ruam atau iritasi ringan.\n\nUntuk penggunaan pada area yang sensitif, kami sarankan lakukan patch test terlebih dahulu di area kecil kulit untuk memastikan tidak ada reaksi alergi.",
+      en: "Our moringa oil can help soothe irritation and redness, and support skin regeneration. Its lightweight texture absorbs quickly, making it suitable for skin experiencing rashes or mild irritation.\n\nFor sensitive areas, we recommend doing a patch test on a small skin area first to ensure there's no allergic reaction.",
+    },
+  },
+  {
+    id: 121,
+    categoryId: "moringa-oil",
+    question: {
+      id: "Moringa oil lebih baik dipakai pagi atau malam?",
+      en: "Should I use moringa oil in the morning or at night?",
+    },
+    answer: {
+      id: "Moringa oil bisa dipakai pagi maupun malam kak. Namun untuk pemakaian pagi hari, perlu berhati-hati karena oil bisa membuat kulit lebih sensitif terhadap sinar UV. Jadi kalau dipakai pagi, pastikan pakai sunscreen setelahnya.\n\nUntuk hasil optimal, banyak pengguna lebih memilih memakai oil di malam hari saat kulit sedang dalam proses regenerasi, sehingga nutrisi dari oil bisa meresap lebih maksimal.",
+      en: "Moringa oil can be used both morning and night. However, be cautious with morning use as oil can make skin more sensitive to UV rays. If you use it in the morning, make sure to apply sunscreen afterward.\n\nFor optimal results, many users prefer applying oil at night when the skin is in regeneration mode, allowing the nutrients to absorb more effectively.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL PRODUCT DETAILS (122-123)
+  // ═══════════════════════════════════════
+  {
+    id: 122,
+    categoryId: "product-details",
+    question: {
+      id: "Kapsul moringa terbuat dari apa?",
+      en: "What are moringa capsules made of?",
+    },
+    answer: {
+      id: "Kapsul kami 100% alami. Cangkang kapsulnya terbuat dari plant-based HPMC dan setiap kapsul berisi 400mg bubuk moringa organik murni.",
+      en: "Our capsules are 100% natural. The capsule shell is made from plant-based HPMC, and each capsule contains 400mg of pure organic moringa powder.",
+    },
+  },
+  {
+    id: 123,
+    categoryId: "product-details",
+    question: {
+      id: "Apakah proses pengeringan menghilangkan nutrisi moringa? Detail proses produksi?",
+      en: "Does the drying process remove moringa's nutrients? Production details?",
+    },
+    answer: {
+      id: "Tidak kak. Proses pengeringan moringa kami menggunakan metode low heat dehydration pada suhu 38°C selama 22 jam. Suhu rendah ini memastikan nutrisi alami moringa tetap terjaga optimal, tidak seperti pengeringan konvensional yang menggunakan suhu tinggi dan bisa merusak vitamin dan antioksidan.\n\nProduk kami juga sudah tersertifikasi organik, halal dari Kemenag, dan terdaftar di BPOM.",
+      en: "Not at all! Our moringa drying process uses low heat dehydration at 38°C (100°F) for 22 hours. This low temperature ensures the natural nutrients remain optimally preserved, unlike conventional drying methods that use high heat and can destroy vitamins and antioxidants.\n\nOur products are also certified organic, halal by the Ministry of Religious Affairs, and registered with BPOM (Indonesia's FDA).",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL ORDER & LOGISTICS (124-129)
+  // ═══════════════════════════════════════
+  {
+    id: 124,
+    categoryId: "order-and-logistics",
+    question: {
+      id: "Bisa pesan dan dikirim lewat Gojek / drop ke hotel?",
+      en: "Can I order via Gojek or have it dropped at my hotel?",
+    },
+    answer: {
+      id: "Bisa kak, silakan memesan langsung melalui WhatsApp di +62 811-3960-3993 untuk pengiriman instan atau drop ke hotel.",
+      en: "Yes, you can! Please order directly via WhatsApp at +62 811-3960-3993 for instant delivery or hotel drop-off.",
+    },
+  },
+  {
+    id: 125,
+    categoryId: "order-and-logistics",
+    question: {
+      id: "Bisa bayar pakai bank transfer?",
+      en: "Can I pay via bank transfer?",
+    },
+    answer: {
+      id: "Jika ingin via bank transfer, kakak bisa memesan langsung melalui WhatsApp di +62 811-3960-3993.",
+      en: "For bank transfer payments, you can order directly via WhatsApp at +62 811-3960-3993.",
+    },
+  },
+  {
+    id: 126,
+    categoryId: "order-and-logistics",
+    question: {
+      id: "Di website harus pakai kartu kredit? Opsi pembayaran lain?",
+      en: "Do I need a credit card on the website? Other payment options?",
+    },
+    answer: {
+      id: "Bisa menggunakan opsi Payments by Xendit, kak. Jika ingin via bank transfer, kakak juga bisa memesan langsung melalui WhatsApp di +62 811-3960-3993.",
+      en: "You can use the Payments by Xendit option on our website. If you prefer bank transfer, you can also order directly via WhatsApp at +62 811-3960-3993.",
+    },
+  },
+  {
+    id: 127,
+    categoryId: "order-and-logistics",
+    question: {
+      id: "Di mana beli produk Treelogy area Canggu?",
+      en: "Where to buy Treelogy products in Canggu area?",
+    },
+    answer: {
+      id: "Untuk area Canggu, kakak bisa menemukan produk moringa oil kami di toko-toko berikut:\n- Realm the Brand\n- Bali Natural Organic Canggu\n- Alive Wholefoods Canggu\n- Bali Buda Canggu\n- Green Habit Canggu",
+      en: "In the Canggu area, you can find our moringa oil at these stores:\n- Realm the Brand\n- Bali Natural Organic Canggu\n- Alive Wholefoods Canggu\n- Bali Buda Canggu\n- Green Habit Canggu",
+    },
+  },
+  {
+    id: 128,
+    categoryId: "order-and-logistics",
+    question: {
+      id: "Di mana beli produk Treelogy area Sanur?",
+      en: "Where to buy Treelogy products in Sanur area?",
+    },
+    answer: {
+      id: "Untuk area Sanur, kakak bisa ke Bali Buda Renon ya.",
+      en: "For the Sanur area, you can visit Bali Buda Renon.",
+    },
+  },
+  {
+    id: 129,
+    categoryId: "order-and-logistics",
+    question: {
+      id: "Jam operasional pengiriman dan libur?",
+      en: "Shipping operating hours and holidays?",
+    },
+    answer: {
+      id: "Pengiriman dilakukan setiap hari kerja (Senin-Sabtu). Untuk pesanan yang masuk di hari Minggu atau hari libur nasional, akan diproses di hari kerja berikutnya.\n\nJam operasional customer service kami: Senin-Sabtu, 09:00-17:00 WITA.",
+      en: "Shipping is processed every business day (Monday-Saturday). Orders placed on Sundays or national holidays will be processed on the next business day.\n\nOur customer service hours: Monday-Saturday, 9:00 AM - 5:00 PM WITA (Bali time).",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL SALES & CONVERSION (130-131)
+  // ═══════════════════════════════════════
+  {
+    id: 130,
+    categoryId: "sales-and-conversion",
+    question: {
+      id: "Apakah ada promo untuk pembelian pertama (first trial)?",
+      en: "Is there a first-time purchase promo?",
+    },
+    answer: {
+      id: "Kami menyediakan promo 10% untuk pembelian pertama & registrasi email melalui website www.treelogy.com.",
+      en: "We offer a 10% discount on your first purchase when you register your email through our website at www.treelogy.com.",
+    },
+  },
+  {
+    id: 131,
+    categoryId: "sales-and-conversion",
+    question: {
+      id: "Link pembelian Treelogy di semua platform?",
+      en: "Treelogy purchase links on all platforms?",
+    },
+    answer: {
+      id: "Kakak bisa membeli produk Treelogy melalui berbagai platform:\n- Website resmi: www.treelogy.com\n- Shopee: cari toko 'Treelogy'\n- Tokopedia: cari toko 'Treelogy'\n- TikTok Shop: cari 'Treelogy'\n- WhatsApp: +62 811-3960-3993\n\nUntuk promo terbaru dan diskon 10% pembelian pertama, bisa langsung melalui website kami.",
+      en: "You can purchase Treelogy products through multiple platforms:\n- Official website: www.treelogy.com\n- Shopee: search for 'Treelogy'\n- Tokopedia: search for 'Treelogy'\n- TikTok Shop: search for 'Treelogy'\n- WhatsApp: +62 811-3960-3993\n\nFor the latest promos and a 10% first-purchase discount, order through our website.",
+    },
+  },
+
+  // ═══════════════════════════════════════
+  // ADDITIONAL FAQ (132-134)
+  // ═══════════════════════════════════════
+  {
+    id: 132,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Apakah moringa bisa menyebabkan alergi?",
+      en: "Can moringa cause allergic reactions?",
+    },
+    answer: {
+      id: "Moringa memang bisa menimbulkan reaksi alergi pada sebagian orang meskipun sangat jarang dan tidak umum kak. Gejala alergi meliputi ruam kulit, gatal-gatal, dan bengkak. Terlebih jika dikonsumsi dalam jumlah banyak sekaligus atau dikonsumsi bersamaan dengan obat atau suplemen lain yang menyebabkan kontraindikasi.\n\nPenting untuk membedakan alergi dengan reaksi detoksifikasi:\n- Alergi: muncul cepat (dalam hitungan menit-jam), disertai bengkak, sesak napas, atau ruam yang menyebar\n- Detox: biasanya ringan, muncul bertahap, dan hilang dalam beberapa hari\n\nProduk moringa kami hanya mengandung 100% daun kelor tanpa batang dan tanpa campuran apapun, sehingga nutrisi yang didapatkan sama dengan mengonsumsi tanaman kelor itu sendiri. Jika kakak memiliki riwayat alergi, sebaiknya mulai dengan dosis sangat kecil dan perhatikan reaksi tubuh.",
+      en: "Moringa can cause allergic reactions in some people, though this is very rare. Allergy symptoms include skin rashes, itching, and swelling — especially if consumed in large amounts at once or alongside medications/supplements that may interact.\n\nIt's important to distinguish allergies from detox reactions:\n- Allergy: appears quickly (minutes to hours), may include swelling, breathing difficulty, or spreading rash\n- Detox: usually mild, gradual onset, and resolves within a few days\n\nOur moringa products contain only 100% pure moringa leaves without stems or additives. If you have a history of allergies, start with a very small dose and observe your body's response.",
+    },
+  },
+  {
+    id: 133,
+    categoryId: "safety-and-health",
+    question: {
+      id: "Aman konsumsi moringa saat sedang diare?",
+      en: "Is it safe to take moringa while having diarrhea?",
+    },
+    answer: {
+      id: "Jika sedang diare, sebaiknya fokus dulu pada pemulihan tubuh dan menjaga hidrasi kak. Moringa memiliki kandungan nutrisi yang cukup kuat dan efek detoksifikasi alami, sehingga bisa memberikan beban tambahan pada pencernaan yang sedang terganggu.\n\nSaran kami:\n- Hentikan sementara konsumsi moringa sampai kondisi pencernaan sudah lebih stabil\n- Fokus pada hidrasi (air putih, oralit) dan makanan yang mudah dicerna\n- Setelah diare mereda, mulai kembali konsumsi moringa dari dosis kecil\n\nMoringa bisa dilanjutkan kembali setelah kondisi pencernaan sudah pulih ya kak.",
+      en: "If you're experiencing diarrhea, it's best to focus on recovery and hydration first. Moringa has potent nutritional content and natural detoxification effects, which could add extra strain on an already disrupted digestive system.\n\nOur recommendation:\n- Temporarily pause moringa until your digestion stabilizes\n- Focus on hydration (water, electrolytes) and easily digestible foods\n- Once diarrhea subsides, resume moringa starting with a small dose\n\nYou can safely continue moringa once your digestive system has recovered.",
+    },
+  },
+  {
+    id: 134,
+    categoryId: "conditions-and-diseases",
+    question: {
+      id: "Moringa untuk penderita GERD sekaligus tekanan darah rendah?",
+      en: "Moringa for people with both GERD and low blood pressure?",
+    },
+    answer: {
+      id: "Produk Treelogy Moringa aman dikonsumsi untuk kebanyakan orang, termasuk yang memiliki tekanan darah rendah dan GERD kak, karena kandungannya hanya 100% daun kelor murni yang dikeringkan secara alami tanpa campuran apapun.\n\nUntuk kondisi gabungan GERD + tekanan darah rendah:\n- Mulai dari dosis sangat kecil (1 kapsul atau ½ sendok teh bubuk per hari)\n- Konsumsi setelah makan untuk menghindari iritasi lambung\n- Perhatikan respon tubuh karena moringa bisa menstabilkan tekanan darah\n\nUntuk GERD, banyak pengguna kami yang justru merasa lebih nyaman pencernaannya setelah rutin konsumsi. Moringa mengandung senyawa antiinflamasi dan antioksidan yang bisa membantu menenangkan peradangan lambung.\n\nNamun karena setiap orang bisa punya reaksi berbeda, konsultasikan ke dokter terlebih dahulu jika kondisi GERD cukup berat atau sedang mengonsumsi obat tekanan darah.",
+      en: "Treelogy Moringa is safe for most people, including those with both low blood pressure and GERD, as our products contain only 100% naturally dried pure moringa leaves with no additives.\n\nFor combined GERD + low blood pressure:\n- Start with a very small dose (1 capsule or ½ teaspoon powder per day)\n- Take after meals to avoid stomach irritation\n- Monitor your body's response since moringa can affect blood pressure levels\n\nFor GERD, many of our users actually report improved digestive comfort with regular use. Moringa contains anti-inflammatory and antioxidant compounds that may help soothe stomach inflammation.\n\nSince everyone responds differently, please consult your doctor first if your GERD is severe or you're on blood pressure medication.",
     },
   },
 ];
