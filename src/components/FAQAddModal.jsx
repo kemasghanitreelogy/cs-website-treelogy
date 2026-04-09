@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { X, Save, Loader2, Tag, User, Plus } from "lucide-react";
+import { X, Save, Loader2, Tag, User, Plus, Languages } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
 import { useAuth } from "../context/AuthContext";
+import { supabase } from "../lib/supabase";
 
 export default function FAQAddModal({ onClose, onSaved }) {
   const { lang } = useLanguage();
@@ -10,13 +11,13 @@ export default function FAQAddModal({ onClose, onSaved }) {
   const { user: authUser } = useAuth();
   const [form, setForm] = useState({
     category_id: categories[0]?.id || "",
-    question_id: "",
-    question_en: "",
+    question: "",
     answer_id: "",
     answer_en: "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState(null);
   const backdropRef = useRef(null);
 
   useEffect(() => {
@@ -33,26 +34,59 @@ export default function FAQAddModal({ onClose, onSaved }) {
       setError(lang === "id" ? "Silakan login terlebih dahulu" : "Please login first");
       return;
     }
-
-    if (!form.question_id.trim() && !form.question_en.trim()) {
+    if (!form.question.trim()) {
       setError(lang === "id" ? "Pertanyaan tidak boleh kosong" : "Question cannot be empty");
       return;
     }
-    if (!form.answer_id.trim() && !form.answer_en.trim()) {
-      setError(lang === "id" ? "Jawaban tidak boleh kosong" : "Answer cannot be empty");
+    if (!form.answer_id.trim()) {
+      setError(lang === "id" ? "Jawaban (ID) tidak boleh kosong" : "Answer (ID) cannot be empty");
       return;
     }
 
     setSaving(true);
     setError(null);
+    setStatus(lang === "id" ? "Menerjemahkan ke Inggris..." : "Translating to English...");
+
     try {
-      await createArticle(form, authUser.id, authUser.name);
+      // Build list of texts that need translation (question always, answer_en only if empty)
+      const textsToTranslate = [form.question];
+      const needAnswerTranslate = !form.answer_en.trim();
+      if (needAnswerTranslate) textsToTranslate.push(form.answer_id);
+
+      const res = await supabase.functions.invoke("translate", {
+        body: { texts: textsToTranslate, from: "id", to: "en" },
+      });
+
+      let questionEn = form.question;
+      let answerEn = form.answer_en.trim() || form.answer_id;
+
+      if (!res.error && res.data?.translations) {
+        questionEn = res.data.translations[0] || form.question;
+        if (needAnswerTranslate) {
+          answerEn = res.data.translations[1] || form.answer_id;
+        }
+      }
+
+      setStatus(lang === "id" ? "Menyimpan FAQ..." : "Saving FAQ...");
+
+      await createArticle(
+        {
+          category_id: form.category_id,
+          question_id: form.question,
+          question_en: questionEn,
+          answer_id: form.answer_id,
+          answer_en: answerEn,
+        },
+        authUser.id,
+        authUser.name
+      );
       onSaved?.();
       onClose();
     } catch (err) {
       setError(err.message);
     } finally {
       setSaving(false);
+      setStatus(null);
     }
   };
 
@@ -77,8 +111,9 @@ export default function FAQAddModal({ onClose, onSaved }) {
               <h2 className="text-base font-semibold text-text">
                 {lang === "id" ? "Tambah FAQ" : "Add FAQ"}
               </h2>
-              <p className="text-[11px] text-muted">
-                {lang === "id" ? "Buat pertanyaan & jawaban baru" : "Create new question & answer"}
+              <p className="text-[11px] text-muted flex items-center gap-1">
+                <Languages className="w-3 h-3" />
+                {lang === "id" ? "Tulis dalam Bahasa Indonesia, otomatis diterjemahkan ke Inggris" : "Write in Indonesian, auto-translated to English"}
               </p>
             </div>
           </div>
@@ -94,7 +129,6 @@ export default function FAQAddModal({ onClose, onSaved }) {
         <div className="px-6 py-5 space-y-5 max-h-[65vh] overflow-y-auto faq-scroll">
           {/* User + Category */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Created by */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted mb-1.5">
                 <User className="w-3.5 h-3.5" />
@@ -123,7 +157,6 @@ export default function FAQAddModal({ onClose, onSaved }) {
               </div>
             </div>
 
-            {/* Category */}
             <div>
               <label className="flex items-center gap-1.5 text-xs font-medium text-muted mb-1.5">
                 <Tag className="w-3.5 h-3.5" />
@@ -143,39 +176,25 @@ export default function FAQAddModal({ onClose, onSaved }) {
             </div>
           </div>
 
-          {/* Question ID */}
+          {/* Question */}
           <div>
             <label className="text-xs font-medium text-muted mb-1.5 block">
-              Pertanyaan (ID)
+              {lang === "id" ? "Pertanyaan" : "Question"}
             </label>
             <input
               type="text"
-              value={form.question_id}
-              onChange={(e) => handleChange("question_id", e.target.value)}
+              value={form.question}
+              onChange={(e) => handleChange("question", e.target.value)}
               placeholder={lang === "id" ? "Tulis pertanyaan dalam Bahasa Indonesia..." : "Write question in Indonesian..."}
               className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
               autoFocus
             />
           </div>
 
-          {/* Question EN */}
-          <div>
-            <label className="text-xs font-medium text-muted mb-1.5 block">
-              Question (EN)
-            </label>
-            <input
-              type="text"
-              value={form.question_en}
-              onChange={(e) => handleChange("question_en", e.target.value)}
-              placeholder={lang === "id" ? "Tulis pertanyaan dalam Bahasa Inggris..." : "Write question in English..."}
-              className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green"
-            />
-          </div>
-
           {/* Answer ID */}
           <div>
             <label className="text-xs font-medium text-muted mb-1.5 block">
-              Jawaban (ID)
+              {lang === "id" ? "Jawaban (ID)" : "Answer (ID)"}
             </label>
             <textarea
               value={form.answer_id}
@@ -186,15 +205,19 @@ export default function FAQAddModal({ onClose, onSaved }) {
             />
           </div>
 
-          {/* Answer EN */}
+          {/* Answer EN (optional) */}
           <div>
-            <label className="text-xs font-medium text-muted mb-1.5 block">
-              Answer (EN)
+            <label className="text-xs font-medium text-muted mb-1.5 flex items-center justify-between">
+              <span>{lang === "id" ? "Jawaban (EN)" : "Answer (EN)"}</span>
+              <span className="text-[10px] text-muted/50 font-normal flex items-center gap-1">
+                <Languages className="w-3 h-3" />
+                {lang === "id" ? "Opsional — kosongkan untuk auto-translate" : "Optional — leave empty to auto-translate"}
+              </span>
             </label>
             <textarea
               value={form.answer_en}
               onChange={(e) => handleChange("answer_en", e.target.value)}
-              placeholder={lang === "id" ? "Tulis jawaban dalam Bahasa Inggris..." : "Write answer in English..."}
+              placeholder={lang === "id" ? "Kosongkan untuk terjemahan otomatis, atau tulis manual..." : "Leave empty for auto-translate, or write manually..."}
               rows={5}
               className="w-full px-3 py-2.5 text-sm rounded-lg border border-border bg-card text-text placeholder:text-muted/40 focus:outline-none focus:ring-2 focus:ring-green/30 focus:border-green resize-y leading-relaxed"
             />
@@ -203,10 +226,15 @@ export default function FAQAddModal({ onClose, onSaved }) {
 
         {/* Footer */}
         <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-card-hover/30 rounded-b-2xl">
-          {error && (
-            <p className="text-xs text-red-500 mr-4 flex-1">{error}</p>
-          )}
-          {!error && <div />}
+          <div className="flex-1 mr-4">
+            {error && <p className="text-xs text-red-500">{error}</p>}
+            {!error && saving && status && (
+              <p className="text-xs text-green flex items-center gap-1.5">
+                <Languages className="w-3 h-3 animate-pulse" />
+                {status}
+              </p>
+            )}
+          </div>
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}

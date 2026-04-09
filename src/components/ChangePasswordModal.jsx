@@ -37,7 +37,33 @@ export default function ChangePasswordModal({ onClose }) {
         body: { user_id: user.id },
       });
 
-      if (res.error) throw new Error(res.error.message);
+      // supabase.functions.invoke puts non-2xx responses in res.error
+      // but the actual JSON body with the detailed error may be in res.error.context
+      if (res.error) {
+        // Try to extract JSON error from the response body
+        let detail = null;
+        try {
+          const ctx = res.error.context;
+          if (ctx && typeof ctx.json === "function") {
+            detail = await ctx.json();
+          }
+        } catch {}
+        if (detail?.error) {
+          if (detail.error === "NO_EMAIL") {
+            setError(lang === "id" ? "Email belum terdaftar. Hubungi admin." : "No email registered. Contact admin.");
+          } else if (detail.error === "Email service not configured") {
+            setError(lang === "id" ? "Layanan email belum dikonfigurasi. Hubungi admin." : "Email service not configured. Contact admin.");
+          } else if (detail.error === "Failed to send email") {
+            setError(lang === "id" ? "Gagal mengirim email. Coba lagi nanti." : "Failed to send email. Try again later.");
+          } else {
+            setError(detail.error);
+          }
+        } else {
+          setError(res.error.message);
+        }
+        return;
+      }
+
       if (res.data?.error) {
         if (res.data.error === "NO_EMAIL") {
           setError(lang === "id" ? "Email belum terdaftar. Hubungi admin." : "No email registered. Contact admin.");

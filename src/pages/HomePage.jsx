@@ -18,6 +18,7 @@ import {
   Clock,
   User,
   Plus,
+  Maximize2,
 } from "lucide-react";
 import TreelogyLogo from "../components/TreelogyLogo";
 import CategoryCard from "../components/CategoryCard";
@@ -26,6 +27,7 @@ import FAQAddModal from "../components/FAQAddModal";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
 import HistoryDrawer from "../components/HistoryDrawer";
 import LoginModal from "../components/LoginModal";
+import FAQFullscreenEditor from "../components/FAQFullscreenEditor";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
 import { useAuth } from "../context/AuthContext";
@@ -388,15 +390,17 @@ function FAQDataTable() {
   const [editArticle, setEditArticle] = useState(null);
   const [deleteArticle, setDeleteArticle] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showFullscreen, setShowFullscreen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [pendingAction, setPendingAction] = useState(null); // { type: 'edit'|'delete'|'add', article? }
+  const [pendingAction, setPendingAction] = useState(null); // { type: 'edit'|'delete'|'add'|'fullscreen', article? }
 
   const handleAuthAction = useCallback((type, article) => {
     if (isAuthenticated) {
       if (type === "edit") setEditArticle(article);
       else if (type === "delete") setDeleteArticle(article);
       else if (type === "add") setShowAddModal(true);
+      else if (type === "fullscreen") setShowFullscreen(true);
     } else {
       setPendingAction({ type, article });
       setShowLoginModal(true);
@@ -409,6 +413,7 @@ function FAQDataTable() {
       if (pendingAction.type === "edit") setEditArticle(pendingAction.article);
       else if (pendingAction.type === "delete") setDeleteArticle(pendingAction.article);
       else if (pendingAction.type === "add") setShowAddModal(true);
+      else if (pendingAction.type === "fullscreen") setShowFullscreen(true);
       setPendingAction(null);
     }
   }, [pendingAction]);
@@ -511,6 +516,16 @@ function FAQDataTable() {
           >
             <Plus className="w-3.5 h-3.5" />
             <span>{lang === "id" ? "Tambah" : "Add"}</span>
+          </button>
+
+          {/* Fullscreen editor */}
+          <button
+            onClick={() => handleAuthAction("fullscreen")}
+            className="flex items-center gap-1.5 px-2.5 py-2 text-xs rounded-lg border border-border bg-card text-muted hover:text-text hover:border-green/40 transition-colors cursor-pointer"
+            title={lang === "id" ? "Edit semua data (fullscreen)" : "Edit all data (fullscreen)"}
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{lang === "id" ? "Fullscreen" : "Fullscreen"}</span>
           </button>
 
           {/* History button */}
@@ -626,6 +641,9 @@ function FAQDataTable() {
       </div>
 
       {/* Modals */}
+      {showFullscreen && (
+        <FAQFullscreenEditor onClose={() => setShowFullscreen(false)} />
+      )}
       {showAddModal && (
         <FAQAddModal
           onClose={() => setShowAddModal(false)}
