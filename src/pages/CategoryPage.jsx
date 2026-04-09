@@ -23,53 +23,12 @@ import Accordion from "../components/Accordion";
 import ContactCTA from "../components/ContactCTA";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
+import { buildIndex, smartSearch } from "../lib/search";
 
 const iconMap = {
   Leaf, Pill, Clock, Heart, ShieldCheck, Package, Truck,
   MessageCircle, Users, ShoppingBag, HelpCircle, Droplets, Stethoscope,
 };
-
-/* ── Smart Search Engine ── */
-
-function buildIndex(articles, categories, lang) {
-  return articles.map((a) => {
-    const q = (a.question[lang] || a.question.id).toLowerCase();
-    const ans = (a.answer[lang] || a.answer.id).toLowerCase();
-    const cat = categories.find((c) => c.id === a.categoryId);
-    return {
-      id: a.id,
-      categoryId: a.categoryId,
-      categoryName: cat ? cat.name[lang] || cat.name.id : "",
-      question: a.question[lang] || a.question.id,
-      answer: a.answer[lang] || a.answer.id,
-      qLower: q,
-      ansLower: ans,
-    };
-  });
-}
-
-function smartSearch(index, query) {
-  const tokens = query.toLowerCase().split(/\s+/).filter((t) => t.length > 1);
-  if (!tokens.length) return [];
-
-  const phrase = tokens.join(" ");
-  const scored = [];
-
-  for (const entry of index) {
-    let score = 0;
-    for (const tok of tokens) {
-      const wbQ = new RegExp(`\\b${tok.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
-      if (wbQ.test(entry.qLower)) score += 12;
-      else if (entry.qLower.includes(tok)) score += 8;
-      if (entry.ansLower.includes(tok)) score += 3;
-    }
-    if (tokens.length > 1 && entry.qLower.includes(phrase)) score += 15;
-    if (score > 0) scored.push({ ...entry, score });
-  }
-
-  scored.sort((a, b) => b.score - a.score);
-  return scored.slice(0, 8);
-}
 
 function getSnippet(answer, tokens, maxLen = 90) {
   const lower = answer.toLowerCase();

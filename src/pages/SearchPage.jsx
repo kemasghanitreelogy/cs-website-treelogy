@@ -4,49 +4,7 @@ import { Search, X, SearchX, CornerDownRight, ChevronRight, Loader2 } from "luci
 import CategoryCard from "../components/CategoryCard";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
-
-/* ─── Smart Search Engine ─── */
-
-function buildIndex(articles, categories, lang) {
-  return articles.map((a) => {
-    const q = a.question[lang] || a.question.id;
-    const ans = a.answer[lang] || a.answer.id;
-    const cat = categories.find((c) => c.id === a.categoryId);
-    return {
-      id: a.id,
-      categoryId: a.categoryId,
-      categoryName: cat ? cat.name[lang] || cat.name.id : "",
-      question: q,
-      answer: ans,
-      qLower: q.toLowerCase(),
-      searchText: q.toLowerCase() + " " + ans.toLowerCase(),
-      article: a,
-    };
-  });
-}
-
-function smartSearch(index, query, limit = 20) {
-  const raw = query.trim().toLowerCase();
-  if (raw.length < 2) return [];
-  const tokens = raw.split(/\s+/).filter((t) => t.length > 1);
-  if (!tokens.length) return [];
-
-  const scored = [];
-  for (const entry of index) {
-    let score = 0;
-    if (entry.qLower.includes(raw)) score += 25;
-    for (const tok of tokens) {
-      const wordBoundary = new RegExp(`(^|\\s)${tok.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`);
-      if (wordBoundary.test(entry.qLower)) score += 12;
-      else if (entry.qLower.includes(tok)) score += 8;
-      if (entry.searchText.includes(tok)) score += 3;
-    }
-    if (tokens.length > 1 && entry.qLower.includes(tokens.join(" "))) score += 15;
-    if (score > 0) scored.push({ ...entry, score });
-  }
-  scored.sort((a, b) => b.score - a.score);
-  return scored.slice(0, limit);
-}
+import { buildIndex, smartSearch } from "../lib/search";
 
 /* ─── Highlight ─── */
 
