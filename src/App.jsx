@@ -11,6 +11,7 @@ import CategoryPage from "./pages/CategoryPage";
 import SearchPage from "./pages/SearchPage";
 import PlaybookPage from "./pages/PlaybookPage";
 import WorkflowPage from "./pages/WorkflowPage";
+import AIFaqPage from "./pages/AIFaqPage";
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,6 +35,7 @@ export default function App() {
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/workflow" element={<WorkflowPage />} />
                     <Route path="/playbook" element={<PlaybookPage />} />
+                    <Route path="/ai-assistant" element={<AIFaqPage />} />
                   </Routes>
                 </div>
                 <Footer />

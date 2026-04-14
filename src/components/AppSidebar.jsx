@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { HelpCircle, BookOpen, Route } from "lucide-react";
+import { HelpCircle, BookOpen, Route, Bot } from "lucide-react";
 import TreelogyLogo from "./TreelogyLogo";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -11,7 +11,7 @@ const PARENT_MENUS = [
     label: { id: "FAQ", en: "FAQ" },
     icon: HelpCircle,
     path: "/",
-    matchFn: (pathname) => !pathname.startsWith("/playbook") && !pathname.startsWith("/workflow"),
+    matchFn: (pathname) => !pathname.startsWith("/playbook") && !pathname.startsWith("/workflow") && !pathname.startsWith("/ai-assistant"),
   },
   {
     id: "workflow",
@@ -26,6 +26,13 @@ const PARENT_MENUS = [
     icon: BookOpen,
     path: "/playbook",
     matchFn: (pathname) => pathname.startsWith("/playbook"),
+  },
+  {
+    id: "ai-assistant",
+    label: { id: "AI Assistant", en: "AI Assistant" },
+    icon: Bot,
+    path: "/ai-assistant",
+    matchFn: (pathname) => pathname.startsWith("/ai-assistant"),
   },
 ];
 
