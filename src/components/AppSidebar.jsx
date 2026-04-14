@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { HelpCircle, BookOpen } from "lucide-react";
+import { HelpCircle, BookOpen, Route } from "lucide-react";
 import TreelogyLogo from "./TreelogyLogo";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -11,7 +11,14 @@ const PARENT_MENUS = [
     label: { id: "FAQ", en: "FAQ" },
     icon: HelpCircle,
     path: "/",
-    matchFn: (pathname) => !pathname.startsWith("/playbook"),
+    matchFn: (pathname) => !pathname.startsWith("/playbook") && !pathname.startsWith("/workflow"),
+  },
+  {
+    id: "workflow",
+    label: { id: "Workflow SOP", en: "Workflow SOP" },
+    icon: Route,
+    path: "/workflow",
+    matchFn: (pathname) => pathname.startsWith("/workflow"),
   },
   {
     id: "playbook",

@@ -10,6 +10,7 @@ import HomePage from "./pages/HomePage";
 import CategoryPage from "./pages/CategoryPage";
 import SearchPage from "./pages/SearchPage";
 import PlaybookPage from "./pages/PlaybookPage";
+import WorkflowPage from "./pages/WorkflowPage";
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,6 +32,7 @@ export default function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/category/:id" element={<CategoryPage />} />
                     <Route path="/search" element={<SearchPage />} />
+                    <Route path="/workflow" element={<WorkflowPage />} />
                     <Route path="/playbook" element={<PlaybookPage />} />
                   </Routes>
                 </div>

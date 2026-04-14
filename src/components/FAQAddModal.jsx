@@ -3,7 +3,7 @@ import { X, Save, Loader2, Tag, User, Plus, Languages } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useData } from "../context/DataContext";
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../lib/supabase";
+import { translateToEnglish } from "../lib/translate";
 
 export default function FAQAddModal({ onClose, onSaved }) {
   const { lang } = useLanguage();
@@ -53,19 +53,10 @@ export default function FAQAddModal({ onClose, onSaved }) {
       const needAnswerTranslate = !form.answer_en.trim();
       if (needAnswerTranslate) textsToTranslate.push(form.answer_id);
 
-      const res = await supabase.functions.invoke("translate", {
-        body: { texts: textsToTranslate, from: "id", to: "en" },
-      });
+      const translations = await translateToEnglish(textsToTranslate);
 
-      let questionEn = form.question;
-      let answerEn = form.answer_en.trim() || form.answer_id;
-
-      if (!res.error && res.data?.translations) {
-        questionEn = res.data.translations[0] || form.question;
-        if (needAnswerTranslate) {
-          answerEn = res.data.translations[1] || form.answer_id;
-        }
-      }
+      let questionEn = translations[0] || form.question;
+      let answerEn = form.answer_en.trim() || (needAnswerTranslate ? translations[1] : form.answer_id) || form.answer_id;
 
       setStatus(lang === "id" ? "Menyimpan FAQ..." : "Saving FAQ...");
 

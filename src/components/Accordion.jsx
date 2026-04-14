@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
-import { ChevronDown, Copy, Check, Pencil, Trash2 } from "lucide-react";
+import { ChevronDown, Copy, Check, Pencil, Trash2, User, Clock } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
 const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, highlight = false, onEdit, onDelete }, ref) {
@@ -72,8 +72,35 @@ const Accordion = forwardRef(function Accordion({ article, defaultOpen = false, 
                 {answer}
               </p>
 
+              {/* Last updated / added by */}
+              <div className="flex items-center gap-2 mt-3 pt-2 border-t border-border/50">
+                <div className="flex items-center gap-1.5 text-[11px] text-muted/50">
+                  <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-green-light/60 text-green flex-shrink-0">
+                    <User className="w-2.5 h-2.5" />
+                  </span>
+                  <span className="font-medium text-muted/60">
+                    {article.updated_at
+                      ? `${lang === "id" ? "Diperbarui oleh" : "Updated by"} ${article.updater_name || "Admin"}`
+                      : `${lang === "id" ? "Ditambahkan oleh" : "Added by"} ${article.updater_name || "Admin"}`
+                    }
+                  </span>
+                  {(article.updated_at || article.created_at) && (
+                    <>
+                      <span className="text-muted/30">·</span>
+                      <Clock className="w-2.5 h-2.5 text-muted/40" />
+                      <span>
+                        {new Date(article.updated_at || article.created_at).toLocaleDateString(
+                          lang === "id" ? "id-ID" : "en-US",
+                          { day: "numeric", month: "short", year: "numeric" }
+                        )}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+
               {/* Action buttons */}
-              <div className="flex items-center justify-between mt-3 pt-2 border-t border-border/50">
+              <div className="flex items-center justify-between mt-3">
                 <div className="flex items-center gap-1.5">
                   {onEdit && (
                     <button
