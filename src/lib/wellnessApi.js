@@ -41,12 +41,19 @@ export async function queryWellnessStream(question, { onToken, onMetadata, onSou
     if (done) break;
 
     buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop() || "";
 
-    for (const line of lines) {
-      if (!line.startsWith("data: ")) continue;
-      const raw = line.slice(6).trim();
+    // SSE events are separated by a blank line (\n\n). Handle \r\n too.
+    const chunks = buffer.split(/\r?\n\r?\n/);
+    buffer = chunks.pop() || "";
+
+    for (const chunk of chunks) {
+      // An event block can have multiple "data:" lines — concatenate them.
+      const dataLines = chunk
+        .split(/\r?\n/)
+        .filter((l) => l.startsWith("data:"))
+        .map((l) => l.slice(5).replace(/^ /, ""));
+      if (dataLines.length === 0) continue;
+      const raw = dataLines.join("\n").trim();
       if (!raw) continue;
 
       try {
