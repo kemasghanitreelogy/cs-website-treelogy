@@ -21,10 +21,18 @@ import {
   Check,
   Activity,
   Database,
+  Trash2,
+  FileSearch,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
-import { queryWellnessStream, uploadKnowledgeDocument, checkHealth } from "../lib/wellnessApi";
+import {
+  queryWellnessStream,
+  uploadKnowledgeDocument,
+  checkHealth,
+  listKnowledgeDocuments,
+  deleteKnowledgeDocument,
+} from "../lib/wellnessApi";
 
 /* ─── Suggested Questions ─── */
 
@@ -316,7 +324,29 @@ function KnowledgeUploadPanel({ lang }) {
   const [uploading, setUploading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [docs, setDocs] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [loadingDocs, setLoadingDocs] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const fileInputRef = useRef(null);
+
+  const fetchDocs = useCallback(async () => {
+    setLoadingDocs(true);
+    try {
+      const data = await listKnowledgeDocuments();
+      setDocs(data.documents || data.files || data.items || []);
+      setStats(data.stats || data.summary || null);
+    } catch (err) {
+      setDocs([]);
+      setError(err.message);
+    } finally {
+      setLoadingDocs(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchDocs();
+  }, [fetchDocs]);
 
   const handleUpload = async () => {
     if (!file) return;
@@ -328,10 +358,44 @@ function KnowledgeUploadPanel({ lang }) {
       setResult(data);
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
+      fetchDocs();
     } catch (err) {
       setError(err.message);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    setDeletingId(id);
+    try {
+      await deleteKnowledgeDocument(id);
+      setDocs((prev) => (prev || []).filter((d) => (d.id || d.name) !== id));
+      fetchDocs();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const formatBytes = (bytes) => {
+    if (!bytes && bytes !== 0) return "";
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+  };
+
+  const formatDate = (d) => {
+    if (!d) return "";
+    try {
+      return new Date(d).toLocaleDateString(lang === "id" ? "id-ID" : "en-US", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    } catch {
+      return String(d);
     }
   };
 
@@ -430,6 +494,113 @@ function KnowledgeUploadPanel({ lang }) {
           <p className="text-xs text-red-700">{error}</p>
         </div>
       )}
+
+      {/* ── Uploaded Knowledge Documents ── */}
+      <div className="pt-2 border-t border-border space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <FileSearch className="w-3.5 h-3.5 text-muted" />
+            <h4 className="text-xs font-semibold text-text">
+              {lang === "id" ? "Dokumen Tersimpan" : "Stored Documents"}
+            </h4>
+            {docs && (
+              <span className="text-[10px] text-muted px-1.5 py-0.5 bg-card-hover rounded-full tabular-nums">
+                {docs.length}
+              </span>
+            )}
+          </div>
+          <button
+            onClick={fetchDocs}
+            disabled={loadingDocs}
+            className="p-1 text-muted hover:text-text rounded-md hover:bg-card-hover disabled:opacity-40 cursor-pointer"
+            title={lang === "id" ? "Muat ulang" : "Refresh"}
+          >
+            <RefreshCw className={`w-3 h-3 ${loadingDocs ? "animate-spin" : ""}`} />
+          </button>
+        </div>
+
+        {stats && (
+          <div className="grid grid-cols-2 gap-1.5">
+            {stats.totalChunks != null && (
+              <div className="px-2 py-1.5 bg-card-hover/50 rounded-lg">
+                <div className="text-[10px] text-muted">{lang === "id" ? "Total chunks" : "Total chunks"}</div>
+                <div className="text-xs font-semibold text-text tabular-nums">{stats.totalChunks}</div>
+              </div>
+            )}
+            {stats.totalDocuments != null && (
+              <div className="px-2 py-1.5 bg-card-hover/50 rounded-lg">
+                <div className="text-[10px] text-muted">{lang === "id" ? "Total dokumen" : "Total documents"}</div>
+                <div className="text-xs font-semibold text-text tabular-nums">{stats.totalDocuments}</div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {loadingDocs && !docs && (
+          <div className="flex items-center gap-2 text-[11px] text-muted py-2">
+            <Loader2 className="w-3 h-3 animate-spin" />
+            {lang === "id" ? "Memuat dokumen..." : "Loading documents..."}
+          </div>
+        )}
+
+        {docs && docs.length === 0 && !loadingDocs && (
+          <div className="flex flex-col items-center gap-1 py-4 text-center">
+            <FileText className="w-6 h-6 text-muted/30" />
+            <p className="text-[11px] text-muted/60">
+              {lang === "id" ? "Belum ada dokumen yang diunggah" : "No documents uploaded yet"}
+            </p>
+          </div>
+        )}
+
+        {docs && docs.length > 0 && (
+          <ul className="space-y-1 max-h-60 overflow-y-auto pr-1 faq-scroll">
+            {docs.map((d, i) => {
+              const id = d.id || d.name || d.path || i;
+              const name = d.name || d.filename || d.title || d.path?.split("/").pop() || `Document ${i + 1}`;
+              const chunks = d.chunks ?? d.chunkCount ?? d.chunk_count;
+              const size = d.size ?? d.bytes;
+              const uploaded = d.uploadedAt || d.createdAt || d.created_at || d.uploaded_at;
+              const isDeleting = deletingId === id;
+              return (
+                <li
+                  key={id}
+                  className="group flex items-start gap-2 px-2.5 py-2 bg-card-hover/40 hover:bg-card-hover/80 border border-transparent hover:border-border/60 rounded-lg transition-colors"
+                >
+                  <div className="w-6 h-6 rounded-md bg-green-light/60 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <FileText className="w-3 h-3 text-green" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] font-medium text-text truncate" title={name}>{name}</p>
+                    <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                      {chunks != null && (
+                        <span className="text-[10px] text-muted">{chunks} chunks</span>
+                      )}
+                      {size != null && (
+                        <span className="text-[10px] text-muted">· {formatBytes(size)}</span>
+                      )}
+                      {uploaded && (
+                        <span className="text-[10px] text-muted/70">· {formatDate(uploaded)}</span>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleDelete(id)}
+                    disabled={isDeleting}
+                    className="opacity-0 group-hover:opacity-100 p-1 text-muted hover:text-red-500 rounded-md transition-opacity disabled:opacity-50 cursor-pointer"
+                    title={lang === "id" ? "Hapus" : "Delete"}
+                  >
+                    {isDeleting ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-3 h-3" />
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

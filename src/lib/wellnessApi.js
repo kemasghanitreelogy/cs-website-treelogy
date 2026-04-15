@@ -100,6 +100,32 @@ export async function queryWellnessStream(question, { onToken, onMetadata, onSou
 }
 
 /**
+ * GET /api/ingest/documents — list uploaded knowledge base documents
+ */
+export async function listKnowledgeDocuments() {
+  const res = await fetch(`${API_BASE}/api/ingest/documents`);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: "Failed to fetch documents" }));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+/**
+ * DELETE /api/ingest/documents/:id — remove a document from the knowledge base
+ */
+export async function deleteKnowledgeDocument(id) {
+  const res = await fetch(`${API_BASE}/api/ingest/documents/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: "Delete failed" }));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+/**
  * POST /api/ingest/file — upload a PDF or DOCX to the knowledge base
  */
 export async function uploadKnowledgeDocument(file) {
