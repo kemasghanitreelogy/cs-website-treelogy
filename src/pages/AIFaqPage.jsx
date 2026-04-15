@@ -183,11 +183,20 @@ function ChatMessage({ message, lang }) {
   const isUser = message.role === "user";
 
   const handleCopy = useCallback(async () => {
+    const cleanContent = (message.content || "")
+      .replace(/\s*\[Source:[^\]]*\]/gi, "")
+      .replace(/\s*\(Source:[^)]*\)/gi, "")
+      .replace(/\s*\[Sumber:[^\]]*\]/gi, "")
+      .replace(/\s*\(Sumber:[^)]*\)/gi, "")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+
     try {
-      await navigator.clipboard.writeText(message.content);
+      await navigator.clipboard.writeText(cleanContent);
     } catch {
       const ta = document.createElement("textarea");
-      ta.value = message.content;
+      ta.value = cleanContent;
       ta.style.position = "fixed";
       ta.style.opacity = "0";
       document.body.appendChild(ta);
