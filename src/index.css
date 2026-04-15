@@ -21,6 +21,11 @@ html {
   scroll-behavior: smooth;
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-bg);

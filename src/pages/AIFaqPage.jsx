@@ -74,6 +74,99 @@ function SourceBadge({ type }) {
   );
 }
 
+/* ─── Layered Loading State ─── */
+
+function LayerProgress({ stages, lang }) {
+  if (!stages || stages.length === 0) {
+    // Pre-stage "connecting" shimmer while we wait for the backend's plan.
+    return (
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-[11px] text-muted">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-60" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green" />
+          </span>
+          {lang === "id" ? "Menghubungkan ke asisten..." : "Connecting to assistant..."}
+        </div>
+        <div className="h-1 w-full overflow-hidden rounded-full bg-card-hover">
+          <div className="h-full w-1/3 bg-gradient-to-r from-transparent via-green to-transparent animate-[shimmer_1.4s_ease-in-out_infinite]" />
+        </div>
+      </div>
+    );
+  }
+
+  const doneCount = stages.filter((s) => s.status === "done").length;
+  const pct = Math.round((doneCount / stages.length) * 100);
+
+  return (
+    <div className="space-y-3">
+      {/* Top progress bar */}
+      <div className="flex items-center gap-2">
+        <div className="flex-1 h-1 rounded-full bg-card-hover overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-green/70 via-green to-emerald-400 transition-all duration-500 ease-out"
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+        <span className="text-[10px] font-medium text-muted tabular-nums w-8 text-right">{pct}%</span>
+      </div>
+
+      {/* Vertical stage list */}
+      <ol className="space-y-1.5">
+        {stages.map((s, i) => {
+          const label = lang === "id" ? s.label_id || s.label_en : s.label_en || s.label_id;
+          const isActive = s.status === "active";
+          const isDone = s.status === "done";
+          return (
+            <li
+              key={s.id}
+              className="flex items-center gap-2.5 transition-all duration-300"
+              style={{
+                opacity: isActive || isDone ? 1 : 0.45,
+                transform: isActive ? "translateX(2px)" : "translateX(0)",
+              }}
+            >
+              {/* Node */}
+              <span className="relative flex items-center justify-center w-5 h-5 flex-shrink-0">
+                {isDone ? (
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green text-white shadow-sm transition-all duration-300">
+                    <Check className="w-3 h-3" strokeWidth={3} />
+                  </span>
+                ) : isActive ? (
+                  <>
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-green/40 animate-ping" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-green shadow-[0_0_0_3px_rgba(34,197,94,0.15)]" />
+                  </>
+                ) : (
+                  <span className="inline-flex h-2.5 w-2.5 rounded-full border border-muted/30 bg-transparent" />
+                )}
+              </span>
+
+              {/* Label */}
+              <span
+                className={`text-xs leading-relaxed transition-colors duration-300 ${
+                  isActive ? "text-text font-medium" : isDone ? "text-muted line-through decoration-green/40" : "text-muted/70"
+                }`}
+              >
+                {label}
+              </span>
+
+              {/* Active tail shimmer */}
+              {isActive && (
+                <span className="ml-1 inline-flex items-end gap-0.5 h-3">
+                  <span className="w-0.5 h-1.5 bg-green rounded-full animate-[bounce_0.9s_ease-in-out_infinite]" />
+                  <span className="w-0.5 h-2.5 bg-green rounded-full animate-[bounce_0.9s_ease-in-out_0.15s_infinite]" />
+                  <span className="w-0.5 h-2 bg-green rounded-full animate-[bounce_0.9s_ease-in-out_0.3s_infinite]" />
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
 /* ─── Chat Message ─── */
 
 function ChatMessage({ message, lang }) {
@@ -138,13 +231,23 @@ function ChatMessage({ message, lang }) {
           </div>
         )}
 
+        {/* Layered generation progress — visible while streaming and content hasn't arrived yet,
+            or always while the assistant is still thinking (no content yet). */}
+        {message.streaming && !message.content && (
+          <div className="bg-card border border-border px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
+            <LayerProgress stages={message.stages} lang={lang} />
+          </div>
+        )}
+
         {/* Message content */}
-        <div className="bg-card border border-border px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
-          <p className="text-sm text-text leading-relaxed whitespace-pre-wrap">{message.content}</p>
-          {message.streaming && (
-            <span className="inline-block w-1.5 h-4 bg-green/60 animate-pulse rounded-sm ml-0.5 -mb-0.5" />
-          )}
-        </div>
+        {(message.content || !message.streaming) && (
+          <div className="bg-card border border-border px-4 py-3 rounded-2xl rounded-bl-md shadow-sm">
+            <p className="text-sm text-text leading-relaxed whitespace-pre-wrap">{message.content}</p>
+            {message.streaming && (
+              <span className="inline-block w-1.5 h-4 bg-green/60 animate-pulse rounded-sm ml-0.5 -mb-0.5" />
+            )}
+          </div>
+        )}
 
         {/* Disclaimer */}
         {message.disclaimer && (
@@ -396,6 +499,7 @@ export default function AIFaqPage() {
       sources: [],
       disclaimer: null,
       verified: false,
+      stages: null,
     };
 
     setMessages((prev) => [...prev, userMsg, assistantMsg]);
@@ -403,6 +507,41 @@ export default function AIFaqPage() {
 
     try {
       await queryWellnessStream(question, {
+        onStages: (plan) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId
+                ? { ...m, stages: plan.map((s) => ({ ...s, status: "pending" })) }
+                : m
+            )
+          );
+        },
+        onStage: (update) => {
+          setMessages((prev) =>
+            prev.map((m) => {
+              if (m.id !== assistantId) return m;
+              const existing = m.stages || [];
+              const idx = existing.findIndex((s) => s.id === update.id);
+              let next;
+              if (idx === -1) {
+                // Dynamically inserted stage (e.g. search_web).
+                const insertIdx = update.insertAfter
+                  ? existing.findIndex((s) => s.id === update.insertAfter) + 1
+                  : existing.length;
+                const newStage = {
+                  id: update.id,
+                  label_en: update.label_en,
+                  label_id: update.label_id,
+                  status: update.status,
+                };
+                next = [...existing.slice(0, insertIdx), newStage, ...existing.slice(insertIdx)];
+              } else {
+                next = existing.map((s, i) => (i === idx ? { ...s, status: update.status } : s));
+              }
+              return { ...m, stages: next };
+            })
+          );
+        },
         onMetadata: (data) => {
           setMessages((prev) =>
             prev.map((m) =>

@@ -20,7 +20,7 @@ export async function queryWellness(question) {
  * POST /api/query/stream — SSE streaming response
  * Returns a ReadableStream of parsed SSE events.
  */
-export async function queryWellnessStream(question, { onToken, onMetadata, onSources, onDisclaimer, onDone, onError }) {
+export async function queryWellnessStream(question, { onToken, onMetadata, onSources, onDisclaimer, onDone, onError, onStages, onStage }) {
   const res = await fetch(`${API_BASE}/api/query/stream`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -52,6 +52,12 @@ export async function queryWellnessStream(question, { onToken, onMetadata, onSou
       try {
         const event = JSON.parse(raw);
         switch (event.type) {
+          case "stages":
+            onStages?.(event.data);
+            break;
+          case "stage":
+            onStage?.(event.data);
+            break;
           case "metadata":
             onMetadata?.(event.data);
             break;
