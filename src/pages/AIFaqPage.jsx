@@ -224,12 +224,6 @@ function ChatMessage({ message, lang }) {
         {message.metadata && (
           <div className="flex items-center gap-2 flex-wrap">
             <SourceBadge type={message.metadata.sourceType} />
-            {message.metadata.confidence != null && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full bg-card-hover text-muted">
-                <Activity className="w-3 h-3" />
-                {Math.round(message.metadata.confidence * 100)}% {lang === "id" ? "keyakinan" : "confidence"}
-              </span>
-            )}
             {message.verified && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full bg-green-light text-green">
                 <Shield className="w-3 h-3" />
