@@ -195,14 +195,8 @@ function ChatMessage({ message, lang }) {
     try {
       await navigator.clipboard.writeText(cleanContent);
     } catch {
-      const ta = document.createElement("textarea");
-      ta.value = cleanContent;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      document.body.removeChild(ta);
+      // Clipboard API unavailable (insecure context). Surface a prompt for manual copy.
+      window.prompt(lang === "id" ? "Salin manual:" : "Copy manually:", cleanContent);
     }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
