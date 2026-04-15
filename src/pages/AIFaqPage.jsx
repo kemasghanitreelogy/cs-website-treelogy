@@ -293,17 +293,28 @@ function ChatMessage({ message, lang }) {
           </div>
         )}
 
-        {/* Copy button */}
+        {/* Ready-to-copy customer reply button */}
         {!message.streaming && message.content && (
           <button
             onClick={handleCopy}
-            className={`inline-flex items-center gap-1 px-2 py-1 text-[11px] rounded-lg transition-colors cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
               copied
-                ? "text-green bg-green-light"
-                : "text-muted/50 hover:text-muted hover:bg-card-hover"
+                ? "text-green bg-green-light border-green/30"
+                : "text-green bg-green-light/60 border-green/20 hover:bg-green-light hover:border-green/40"
             }`}
+            title={lang === "id" ? "Salin balasan siap kirim ke pelanggan" : "Copy reply ready to send to customer"}
           >
-            {copied ? <><Check className="w-3 h-3" />{lang === "id" ? "Tersalin" : "Copied"}</> : <><Copy className="w-3 h-3" />{lang === "id" ? "Salin" : "Copy"}</>}
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                {lang === "id" ? "Tersalin — siap kirim" : "Copied — ready to send"}
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5" />
+                {lang === "id" ? "Salin balasan untuk pelanggan" : "Copy reply for customer"}
+              </>
+            )}
           </button>
         )}
       </div>
