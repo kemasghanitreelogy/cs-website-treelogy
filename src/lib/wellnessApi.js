@@ -47,45 +47,53 @@ export async function queryWellnessStream(question, { onToken, onMetadata, onSou
     buffer = chunks.pop() || "";
 
     for (const chunk of chunks) {
-      // An event block can have multiple "data:" lines — concatenate them.
-      const dataLines = chunk
-        .split(/\r?\n/)
-        .filter((l) => l.startsWith("data:"))
-        .map((l) => l.slice(5).replace(/^ /, ""));
+      // Parse SSE block: the event name lives on `event:` lines, the payload on `data:` lines.
+      let eventType = "message";
+      const dataLines = [];
+      for (const rawLine of chunk.split(/\r?\n/)) {
+        if (rawLine.startsWith(":")) continue; // comment / keep-alive
+        if (rawLine.startsWith("event:")) {
+          eventType = rawLine.slice(6).trim();
+        } else if (rawLine.startsWith("data:")) {
+          dataLines.push(rawLine.slice(5).replace(/^ /, ""));
+        }
+      }
       if (dataLines.length === 0) continue;
       const raw = dataLines.join("\n").trim();
       if (!raw) continue;
 
+      let payload;
       try {
-        const event = JSON.parse(raw);
-        switch (event.type) {
-          case "stages":
-            onStages?.(event.data);
-            break;
-          case "stage":
-            onStage?.(event.data);
-            break;
-          case "metadata":
-            onMetadata?.(event.data);
-            break;
-          case "token":
-            onToken?.(event.data);
-            break;
-          case "sources":
-            onSources?.(event.data);
-            break;
-          case "disclaimer":
-            onDisclaimer?.(event.data);
-            break;
-          case "done":
-            onDone?.();
-            break;
-          case "error":
-            onError?.(event.data);
-            break;
-        }
+        payload = JSON.parse(raw);
       } catch {
-        // skip malformed JSON lines
+        continue;
+      }
+
+      switch (eventType) {
+        case "stages":
+          onStages?.(payload);
+          break;
+        case "stage":
+          onStage?.(payload);
+          break;
+        case "metadata":
+          onMetadata?.(payload);
+          break;
+        case "token":
+          onToken?.(payload);
+          break;
+        case "sources":
+          onSources?.(payload);
+          break;
+        case "disclaimer":
+          onDisclaimer?.(payload);
+          break;
+        case "done":
+          onDone?.();
+          break;
+        case "error":
+          onError?.(payload);
+          break;
       }
     }
   }
